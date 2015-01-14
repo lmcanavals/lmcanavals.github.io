@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Password generator</title>
+    <link href="css/pwdgen.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="wrapper">
+      <div>
+        <label for="upp">
+          <input type="checkbox" id="upp" checked> ABCDE...
+        </label>
+        <label for="low">
+          <input type="checkbox" id="low" checked> abcde...
+        </label>
+        <label for="num">
+          <input type="checkbox" id="num" checked> 01234...
+        </label>
+      </div>
+      <div>
+        <label for="cus">Custom</label>
+        <input type="text" id="cus" value="._-+!?">
+      </div>
+      <div>
+        <label for="len">Length</label>
+        <input type="number" id="len" value="30">
+      </div>
+      <div>
+        <button id="generate">Generate</button>
+      </div>
+      <div>
+        <pre id="product"></pre>
+      </div>
+    </div>
+    <script src="js/pwdgen.js"></script>
+  </body>
+</html>

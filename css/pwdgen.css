@@ -1,0 +1,38 @@
+#wrapper {
+  margin: 0 auto;
+}
+input {
+  font-size: 1em;
+}
+pre {
+  font-size: 2em;
+}
+label, button {
+  font-size: 1em;
+}
+@media only screen and (max-width : 30em) {
+}
+@media only screen and (min-width : 30.05em) and (max-width : 48em) {
+  body {
+    font-size: 150%;
+  }
+  #wrapper {
+    width: 20em;
+  }
+}
+@media only screen and (min-width : 48.05em) {
+  body {
+    font-size: 200%;
+  }
+  #wrapper {
+    width: 30em;
+  }
+}
+/* 1em = 16px:
+ *                    max-width: 20em == 320px
+ * min-width: 20.05em max-width: 30em == 480px
+ * min-width: 30.05em max-width: 48em == 768px
+ * min-width: 48.05em max-width: 62em == 992px
+ * min-width: 62.05em max-width: 75em == 1200px
+ * min-width: 75.05em
+ **/
