@@ -24,6 +24,9 @@
   for(var i = 0; i < width; i++) {
     cells[i] = new Int8Array(height);
     prevGen[i] = new Int8Array(height);
+    for (var j = 0; j < hegiht; j++) {
+      cells[i][j] = Math.floor(Math.random() * 100) > 80? ONE;
+    }
   }
 
   function drawCells() {
