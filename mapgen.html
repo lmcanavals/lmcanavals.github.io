@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://canaval.org/gofl.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Generador de matrices de mapas</title>
+    <style>
+    body { background-color: black; color: white; }
+    .container { margin: 0 auto; width: 960px; }
+    .c0 { background-color: #000; }
+    .c1 { background-color: #800; }
+    .c2 { background-color: #080; }
+    .c3 { background-color: #880; }
+    .c4 { background-color: #008; }
+    .c5 { background-color: #a0a; }
+    .c6 { background-color: #055; }
+    .c7 { background-color: #aaa; }
+    .c8 { background-color: #555; }
+    .c9 { background-color: #f00; }
+    .cA { background-color: #0f0; }
+    .cB { background-color: #ff0; }
+    .cC { background-color: #00f; }
+    .cD { background-color: #f0f; }
+    .cE { background-color: #0aa; }
+    .cF { background-color: #fff; }
+    input[type="number"] { width: 46px; }
+    input[type="text"] { width: 46px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Generador de matrices de mapas</h1>
+	  <div>		<table>
+		<tr>
+		  <td>Filas: </td><td><input type="number" id="rows" value="22"></td>
+		  <td>Columnas: </td><td><input type="number" id="cols" value="60"></td>
+      <td><button id="nuevo">Nuevo!</button></td>
+		</tr>
+		</table>
+
+		<table>
+		<tr>
+		  <td>Fondo: </td>
+		  <td class="c0"><input type="radio" name="bg" value="0" checked>0</td>
+		  <td class="c1"><input type="radio" name="bg" value="1">1</td>
+		  <td class="c2"><input type="radio" name="bg" value="2">2</td>
+		  <td class="c3"><input type="radio" name="bg" value="3">3</td>
+		  <td class="c4"><input type="radio" name="bg" value="4">4</td>
+		  <td class="c5"><input type="radio" name="bg" value="5">5</td>
+		  <td class="c6"><input type="radio" name="bg" value="6">6</td>
+		  <td class="c7"><input type="radio" name="bg" value="7">7</td>
+		  <td class="c8"><input type="radio" name="bg" value="8">8</td>
+		  <td class="c9"><input type="radio" name="bg" value="9">9</td>
+		  <td class="cA"><input type="radio" name="bg" value="10">A</td>
+		  <td class="cB"><input type="radio" name="bg" value="11">B</td>
+		  <td class="cC"><input type="radio" name="bg" value="12">C</td>
+		  <td class="cD"><input type="radio" name="bg" value="13">D</td>
+		  <td class="cE"><input type="radio" name="bg" value="14">E</td>
+		  <td class="cF"><input type="radio" name="bg" value="15">F</td>
+		</tr>
+		<tr>
+		  <td>Letra: </td>
+		  <td class="c0"><input type="radio" name="fg" value="0">0</td>
+		  <td class="c1"><input type="radio" name="fg" value="1">1</td>
+		  <td class="c2"><input type="radio" name="fg" value="2">2</td>
+		  <td class="c3"><input type="radio" name="fg" value="3">3</td>
+		  <td class="c4"><input type="radio" name="fg" value="4">4</td>
+		  <td class="c5"><input type="radio" name="fg" value="5">5</td>
+		  <td class="c6"><input type="radio" name="fg" value="6">6</td>
+		  <td class="c7"><input type="radio" name="fg" value="7" checked>7</td>
+		  <td class="c8"><input type="radio" name="fg" value="8">8</td>
+		  <td class="c9"><input type="radio" name="fg" value="9">9</td>
+		  <td class="cA"><input type="radio" name="fg" value="10">A</td>
+		  <td class="cB"><input type="radio" name="fg" value="11">B</td>
+		  <td class="cC"><input type="radio" name="fg" value="12">C</td>
+		  <td class="cD"><input type="radio" name="fg" value="13">D</td>
+		  <td class="cE"><input type="radio" name="fg" value="14">E</td>
+		  <td class="cF"><input type="radio" name="fg" value="15">F</td>
+		</tr>
+		<tr>
+		  <td>Código: </td>
+		  <td><input type="radio" name="code" value="0" checked>0</td>
+		  <td><input type="radio" name="code" value="1">1</td>
+		  <td><input type="radio" name="code" value="2">2</td>
+		  <td><input type="radio" name="code" value="3">3</td>
+		  <td><input type="radio" name="code" value="4">4</td>
+		  <td><input type="radio" name="code" value="5">5</td>
+		  <td><input type="radio" name="code" value="6">6</td>
+		  <td><input type="radio" name="code" value="7">7</td>
+		  <td><input type="radio" name="code" value="8">8</td>
+		  <td><input type="radio" name="code" value="9">9</td>
+		  <td><input type="radio" name="code" value="10">A</td>
+		  <td><input type="radio" name="code" value="11">B</td>
+		  <td><input type="radio" name="code" value="12">C</td>
+		  <td><input type="radio" name="code" value="13">D</td>
+		  <td><input type="radio" name="code" value="14">E</td>
+		  <td><input type="radio" name="code" value="15">F</td>
+		</tr>
+		<tr>
+		  <td>Códigos Ascii: </td>
+		  <td><input type="number" id="char0" value="1"></td>
+		  <td><input type="number" id="char1" value="2"></td>
+		  <td><input type="number" id="char2" value="3"></td>
+		  <td><input type="number" id="char3" value="64"></td>
+		  <td><input type="number" id="char4" value="219"></td>
+		  <td><input type="number" id="char5" value="97"></td>
+		  <td><input type="number" id="char6" value="65"></td>
+		  <td><input type="number" id="char7" value="0"></td>
+		  <td><input type="number" id="char8" value="0"></td>
+		  <td><input type="number" id="char9" value="0"></td>
+		  <td><input type="number" id="char10" value="0"></td>
+		  <td><input type="number" id="char11" value="0"></td>
+		  <td><input type="number" id="char12" value="0"></td>
+		  <td><input type="number" id="char13" value="0"></td>
+		  <td><input type="number" id="char14" value="0"></td>
+		  <td><input type="number" id="char15" value="0"></td>
+		</tr>
+		<tr>
+		  <td>Nombre: </td>
+		  <td><input type="text" id="name0" value="hero"></td>
+		  <td><input type="text" id="name1" value="enemy"></td>
+		  <td><input type="text" id="name2" value="coin"></td>
+		  <td><input type="text" id="name3" value="life"></td>
+		  <td><input type="text" id="name4" value="bomb"></td>
+		  <td><input type="text" id="name5" value="bullet"></td>
+		  <td><input type="text" id="name6" value="bloque"></td>
+		  <td><input type="text" id="name7" value=""></td>
+		  <td><input type="text" id="name8" value=""></td>
+		  <td><input type="text" id="name9" value=""></td>
+		  <td><input type="text" id="name10" value=""></td>
+		  <td><input type="text" id="name11" value=""></td>
+		  <td><input type="text" id="name12" value=""></td>
+		  <td><input type="text" id="name13" value=""></td>
+		  <td><input type="text" id="name14" value=""></td>
+		  <td><input type="text" id="name15" value=""></td>
+		</tr>
+		</table>
+	  </div>
+      <canvas id="cnvs" width="960" height="576"></canvas>
+	  <textarea rows="50" cols="134" id="output"  wrap="off" readonly></textarea>
+    </div>
+    <script src="./js/generador.js"></script>
+  
+
+</body></html>
