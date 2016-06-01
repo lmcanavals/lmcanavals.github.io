@@ -1,4 +1,4 @@
-!(function() {
+var foo = !(function() {
   // Useful constants.
   var BOX_SIDE = 10;
   var DELAY = 150;
@@ -38,7 +38,7 @@
       context.moveTo(i * BOX_SIDE, 0);
       context.lineTo(i * BOX_SIDE, height * BOX_SIDE);
     }
-    for(var i = 0; i <= height; i++) {
+    for(i = 0; i <= height; i++) {
       context.moveTo(0, i * BOX_SIDE);
       context.lineTo(width * BOX_SIDE, i * BOX_SIDE);
     }
@@ -95,7 +95,7 @@
       }
     }
     drawCells();
-  }
+  };
 
   // Eventos de teclado.
   window.onkeypress = function(e) {
@@ -108,7 +108,7 @@
       }
       running = !running;
     }
-  }
+  };
 
   // Eventos de mouse.
   canvas.onclick = function(e) {
@@ -116,8 +116,7 @@
     var y = Math.floor((e.y - canvas.offsetTop) / BOX_SIDE);
     cells[x][y] = cells[x][y] == ONE ? ZERO : ONE;
     drawCells();
-  }
+  };
 
   drawCells();
-})()
-
+})();
