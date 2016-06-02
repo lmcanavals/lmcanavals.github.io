@@ -367,7 +367,7 @@ var foo = !(function() {
     ctx.fillStyle = mcolor(bg);
     ctx.fill();
     ctx.fillStyle = mcolor(fg);
-    ctx.font = "14pt Consolas";
+    ctx.font = "14pt Consolas, monospace";
     ctx.fillText(mchar(chr), (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
   }
   
