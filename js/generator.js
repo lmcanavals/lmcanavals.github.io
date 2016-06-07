@@ -310,8 +310,8 @@ var foo = !(function() {
     cad += "// Caracteres como Constantes!\n";
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
-        cad += '#define CHAR' + names[i].value.toUpperCase() + ' ' + codes[i].value + '\n';
-      }
+        cad += '#define CHAR' + names[i].value.toUpperCase() + "  '\\" + codes[i].value + "'\n";
+      }w
     }
     cad += '\n\n';
     cad += "// Constantes de tipo de elemento!\n";
@@ -330,9 +330,10 @@ var foo = !(function() {
       cad += ' }' + (i < rows - 1? ', ': '') + '\n';
     }
     cad += '};\n\n';
-    cad += 'void dibujarMapa(int& m[' + rows + '][' + cols + '], int rows, int cols) {\n';
-    cad += '    int px = 40 - cols / 2;\n';
-    cad += '    int py = 40 - rows / 2;\n';
+    cad += 'int px, py;\n\n';
+    cad += 'void dibujarMapa(int m[' + rows + '][' + cols + '], int rows, int cols) {\n';
+    cad += '    px = 40 - cols / 2;\n';
+    cad += '    py = 12 - rows / 2;\n';
     cad += '    for (int i = 0; i < rows; ++i) {\n';
     cad += '        for (int j = 0; j < cols; ++j) {\n';
     cad += '            int objeto = m[i][j] & 0xf00;\n';
@@ -342,13 +343,13 @@ var foo = !(function() {
     cad += '                int fg = m[i][j] & 0x00f;\n';
     cad += '                bgColor(bg);\n';
     cad += '                fgColor(fg);\n';
-    cad += '            }\n';
-    cad += '            switch (objeto) {\n';
+    cad += '                switch (objeto) {\n';
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
-        cad += '            case ' + names[i].value.toUpperCase() + ': cout << CHAR' + names[i].value.toUpperCase() + '; break;\n';
+        cad += '                case ' + names[i].value.toUpperCase() + ': cout << CHAR' + names[i].value.toUpperCase() + '; break;\n';
       }
     }
+    cad += '                }\n';
     cad += '            }\n';
     cad += '        }\n';
     cad += '    }\n';
