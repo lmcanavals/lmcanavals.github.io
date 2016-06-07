@@ -311,7 +311,7 @@ var foo = !(function() {
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
         cad += '#define CHAR' + names[i].value.toUpperCase() + "  '\\" + codes[i].value + "'\n";
-      }w
+      }
     }
     cad += '\n\n';
     cad += "// Constantes de tipo de elemento!\n";
