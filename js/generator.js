@@ -27,8 +27,8 @@ var foo = !(function() {
   output = document.getElementById('output');
 
   for (i = 0; i < 16; ++i) {
-    codes[i] = document.getElementById("char" + i);
-    names[i] = document.getElementById("name" + i);
+    codes[i] = document.getElementById('char' + i);
+    names[i] = document.getElementById('name' + i);
   }
 
   function mchar(code) {
@@ -315,49 +315,48 @@ var foo = !(function() {
 
   function writeMat() {
     var cad = '';
-    cad += "// Caracteres como Constantes!\n";
+    cad +=rows + ' ' + cols + '\n';
+    for (i = 0; i < rows; ++i) {
+      for (j = 0; j < cols; ++j) {
+        cad += (j === 0? '': ' ') + '0x' + ('00' + mat[j][i].toString(16)).substr(-3);
+      }
+      cad += '\n';
+    }
+    cad += '\n\n\n\n';
+    cad += '// Caracteres!\n';
+    cad += 'const unsigned char glyphs[16] = { '
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
-        cad += '#define CHAR' + names[i].value.toUpperCase() + "  '\\" + codes[i].value + "'\n";
+        cad += (i === 0? '': ', ') + codes[i].value + ' ';
       }
     }
     cad += '\n\n';
-    cad += "// Constantes de tipo de elemento!\n";
+    cad += '// Constantes de tipo de elemento!\n';
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
         cad += '#define ' + names[i].value.toUpperCase() + ' 0x' + i.toString(16) + '00\n';
       }
     }
     cad += '\n\n';
-    cad += 'int mapa[' + rows + '][' + cols + '] = {\n';
-    for (i = 0; i < rows; ++i) {
-      cad += '    { ';
-      for (j = 0; j < cols; ++j) {
-        cad += (j === 0? '': ', ') + '0x' + ('00' + mat[j][i].toString(16)).substr(-3);
-      }
-      cad += ' }' + (i < rows - 1? ', ': '') + '\n';
-    }
-    cad += '};\n\n';
-    cad += 'int px, py;\n\n';
-    cad += 'void dibujarMapa(int m[' + rows + '][' + cols + '], int rows, int cols) {\n';
+
+    cad += 'int px;\n';
+    cad += 'int py;\n';
+    cad += '\n';
+    cad += 'void padPrint(int x, int y, unsigned char glyph) {\n';
+    cad += '    Console::SetCursorPosition(px + x, py + y);\n';
+    cad += '    cout << glyph;\n';
+    cad += '}\n';
+    cad += '\n';
+    cad += 'void dibujarMapa(int** m, rows, int cols) {\n';
+    cad += '    Console::Clear();\n';
     cad += '    px = 40 - cols / 2;\n';
     cad += '    py = 12 - rows / 2;\n';
     cad += '    for (int i = 0; i < rows; ++i) {\n';
     cad += '        for (int j = 0; j < cols; ++j) {\n';
-    cad += '            int objeto = m[i][j] & 0xf00;\n';
-    cad += '            if (objeto != 0x000) {\n';
-    cad += '                Console::SetCursorPosition(px + j, py + i);\n';
-    cad += '                int bg = m[i][j] & 0x0f0;\n';
-    cad += '                int fg = m[i][j] & 0x00f;\n';
-    cad += '                bgColor(bg);\n';
-    cad += '                fgColor(fg);\n';
-    cad += '                switch (objeto) {\n';
-    for (i = 0; i < 16; ++i) {
-      if (names[i].value.trim() !== '') {
-        cad += '                case ' + names[i].value.toUpperCase() + ': cout << CHAR' + names[i].value.toUpperCase() + '; break;\n';
-      }
-    }
-    cad += '                }\n';
+    cad += '            int obj = objeto(m[i][j]);\n';
+    cad += '            if (obj != VACIO) {\n';
+    cad += '                frommapcolor(m[i][j]);\n';
+    cad += '                padPrint(j, i, glyphs[obj]);\n';
     cad += '            }\n';
     cad += '        }\n';
     cad += '    }\n';
@@ -376,7 +375,7 @@ var foo = !(function() {
     ctx.fillStyle = mcolor(bg);
     ctx.fill();
     ctx.fillStyle = mcolor(fg);
-    ctx.font = "14pt Consolas, monospace";
+    ctx.font = '14pt Consolas, monospace';
     ctx.fillText(mchar(chr), (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
   }
 
@@ -396,12 +395,12 @@ var foo = !(function() {
 
     // numbers
     ctx.fillStyle = '#fff';
-    ctx.font = "12pt 'Arial Narrow'";
+    ctx.font = '12pt "Arial Narrow"';
     for(i = 0; i < cols; i++) {
-      ctx.fillText("" + i % 10, (i + offsetx) * bx + 3, offsety * by - 5);
+      ctx.fillText('' + i % 10, (i + offsetx) * bx + 3, offsety * by - 5);
     }
     for(i = 0; i < rows; i++) {
-      ctx.fillText("" + i % 10, (offsetx - 1) * bx + 1, (offsety + i + 1) * by - 4);
+      ctx.fillText('' + i % 10, (offsetx - 1) * bx + 1, (offsety + i + 1) * by - 4);
     }
 
     // drawing actual map region
