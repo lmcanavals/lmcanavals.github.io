@@ -80,8 +80,8 @@ var foo = !(function() {
       cad += '\n';
     }
     cad += '\n\n\n\n';
-    cad += '/// Copie de aqui en adelante a su programa\n';
-    cad += '#include "juego.h"\n';
+    cad += '/// Copie de aqui en adelante a su programa\n\n';
+    cad += '#include "juego.h"\n\n';
     cad += '// Caracteres!\n';
     cad += 'const unsigned char glyphs[16] = { '
     for (i = 0; i < 16; ++i) {
