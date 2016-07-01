@@ -91,8 +91,7 @@ var foo = !(function() {
     cad += '// Constantes de tipo de elemento!\n';
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
-        cad += '#define '
-          + (names[i].value.toUpperCase() + '       ').substr(0, 16) + i + '\n';
+        cad += '#define ' + names[i].value.toUpperCase() + ' ' + i + '\n';
       }
     }
     cad += '\n\n';
