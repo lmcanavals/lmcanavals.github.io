@@ -31,266 +31,23 @@ var foo = !(function() {
     names[i] = document.getElementById('name' + i);
   }
 
-  function mchar(code) {
-    switch (code) {
-      case 0: return '';
-      case 1: return '☺';
-      case 2: return '☻';
-      case 3: return '♥';
-      case 4: return '♦';
-      case 5: return '♣';
-      case 6: return '♠';
-      case 7: return '•';
-      case 8: return '◘';
-      case 9: return '○';
-      case 10: return '◙';
-      case 11: return '♂';
-      case 12: return '♀';
-      case 13: return '♪';
-      case 14: return '♫';
-      case 15: return '☼';
-      case 16: return '►';
-      case 17: return '◄';
-      case 18: return '↕';
-      case 19: return '‼';
-      case 20: return '¶';
-      case 21: return '§';
-      case 22: return '▬';
-      case 23: return '↨';
-      case 24: return '↑';
-      case 25: return '↓';
-      case 26: return '→';
-      case 27: return '←';
-      case 28: return '∟';
-      case 29: return '↔';
-      case 30: return '▲';
-      case 31: return '▼';
-      case 32: return ' ';
-      case 33: return '!';
-      case 34: return '"';
-      case 35: return '#';
-      case 36: return '$';
-      case 37: return '%';
-      case 38: return '&';
-      case 39: return '\'';
-      case 40: return '(';
-      case 41: return ')';
-      case 42: return '*';
-      case 43: return '+';
-      case 44: return ',';
-      case 45: return '-';
-      case 46: return '.';
-      case 47: return '/';
-      case 48: return '0';
-      case 49: return '1';
-      case 50: return '2';
-      case 51: return '3';
-      case 52: return '4';
-      case 53: return '5';
-      case 54: return '6';
-      case 55: return '7';
-      case 56: return '8';
-      case 57: return '9';
-      case 58: return ':';
-      case 59: return ';';
-      case 60: return '<';
-      case 61: return '=';
-      case 62: return '>';
-      case 63: return '?';
-      case 64: return '@';
-      case 65: return 'A';
-      case 66: return 'B';
-      case 67: return 'C';
-      case 68: return 'D';
-      case 69: return 'E';
-      case 70: return 'F';
-      case 71: return 'G';
-      case 72: return 'H';
-      case 73: return 'I';
-      case 74: return 'J';
-      case 75: return 'K';
-      case 76: return 'L';
-      case 77: return 'M';
-      case 78: return 'N';
-      case 79: return 'O';
-      case 80: return 'P';
-      case 81: return 'Q';
-      case 82: return 'R';
-      case 83: return 'S';
-      case 84: return 'T';
-      case 85: return 'U';
-      case 86: return 'V';
-      case 87: return 'W';
-      case 88: return 'X';
-      case 89: return 'Y';
-      case 90: return 'Z';
-      case 91: return '[';
-      case 92: return '\\';
-      case 93: return ']';
-      case 94: return '^';
-      case 95: return '_';
-      case 96: return '`';
-      case 97: return 'a';
-      case 98: return 'b';
-      case 99: return 'c';
-      case 100: return 'd';
-      case 101: return 'e';
-      case 102: return 'f';
-      case 103: return 'g';
-      case 104: return 'h';
-      case 105: return 'i';
-      case 106: return 'j';
-      case 107: return 'k';
-      case 108: return 'l';
-      case 109: return 'm';
-      case 110: return 'n';
-      case 111: return 'o';
-      case 112: return 'p';
-      case 113: return 'q';
-      case 114: return 'r';
-      case 115: return 's';
-      case 116: return 't';
-      case 117: return 'u';
-      case 118: return 'v';
-      case 119: return 'w';
-      case 120: return 'x';
-      case 121: return 'y';
-      case 122: return 'z';
-      case 123: return '{';
-      case 124: return '|';
-      case 125: return '}';
-      case 126: return '~';
-      case 127: return '⌂';
-      case 128: return 'Ç';
-      case 129: return 'ü';
-      case 130: return 'é';
-      case 131: return 'â';
-      case 132: return 'ä';
-      case 133: return 'à';
-      case 134: return 'å';
-      case 135: return 'ç';
-      case 136: return 'ê';
-      case 137: return 'ë';
-      case 138: return 'è';
-      case 139: return 'ï';
-      case 140: return 'î';
-      case 141: return 'ì';
-      case 142: return 'Ä';
-      case 143: return 'Å';
-      case 144: return 'É';
-      case 145: return 'æ';
-      case 146: return 'Æ';
-      case 147: return 'ô';
-      case 148: return 'ö';
-      case 149: return 'ò';
-      case 150: return 'û';
-      case 151: return 'ù';
-      case 152: return 'ÿ';
-      case 153: return 'Ö';
-      case 154: return 'Ü';
-      case 155: return 'ø';
-      case 156: return '£';
-      case 157: return 'Ø';
-      case 158: return '×';
-      case 159: return 'ƒ';
-      case 160: return 'á';
-      case 161: return 'í';
-      case 162: return 'ó';
-      case 163: return 'ú';
-      case 164: return 'ñ';
-      case 165: return 'Ñ';
-      case 166: return 'ª';
-      case 167: return 'º';
-      case 168: return '¿';
-      case 169: return '®';
-      case 170: return '¬';
-      case 171: return '½';
-      case 172: return '¼';
-      case 173: return '¡';
-      case 174: return '«';
-      case 175: return '»';
-      case 176: return '░';
-      case 177: return '▒';
-      case 178: return '▓';
-      case 179: return '│';
-      case 180: return '┤';
-      case 181: return 'Á';
-      case 182: return 'Â';
-      case 183: return 'À';
-      case 184: return '©';
-      case 185: return '╣';
-      case 186: return '║';
-      case 187: return '╗';
-      case 188: return '╝';
-      case 189: return '¢';
-      case 190: return '¥';
-      case 191: return '┐';
-      case 192: return '└';
-      case 193: return '┴';
-      case 194: return '┬';
-      case 195: return '├';
-      case 196: return '─';
-      case 197: return '┼';
-      case 198: return 'ã';
-      case 199: return 'Ã';
-      case 200: return '╚';
-      case 201: return '╔';
-      case 202: return '╩';
-      case 203: return '╦';
-      case 204: return '╠';
-      case 205: return '═';
-      case 206: return '╬';
-      case 207: return '¤';
-      case 208: return 'ð';
-      case 209: return 'Ð';
-      case 210: return 'Ê';
-      case 211: return 'Ë';
-      case 212: return 'È';
-      case 213: return 'ı';
-      case 214: return 'Í';
-      case 215: return 'Î';
-      case 216: return 'Ï';
-      case 217: return '┘';
-      case 218: return '┌';
-      case 219: return '█';
-      case 220: return '▄';
-      case 221: return '¦';
-      case 222: return 'Ì';
-      case 223: return '▀';
-      case 224: return 'Ó';
-      case 225: return 'ß';
-      case 226: return 'Ô';
-      case 227: return 'Ò';
-      case 228: return 'õ';
-      case 229: return '↔';
-      case 230: return 'µ';
-      case 231: return 'þ';
-      case 232: return 'Þ';
-      case 233: return 'Ú';
-      case 234: return 'Û';
-      case 235: return 'Ù';
-      case 236: return 'ý';
-      case 237: return 'Ý';
-      case 238: return '¯';
-      case 239: return '´';
-      case 240: return '•';
-      case 241: return '±';
-      case 242: return '‗';
-      case 243: return '¾';
-      case 244: return '¶';
-      case 245: return '§';
-      case 246: return '÷';
-      case 247: return '¸';
-      case 248: return '°';
-      case 249: return '¨';
-      case 250: return '·';
-      case 251: return '¹';
-      case 252: return '³';
-      case 253: return '²';
-      case 254: return '■';
-      case 255: return ' ';
-    }
-  }
+  var mchar = [
+    ' ', '☺', '☻', '♥', '♦', '♣', '♠', '•', '◘', '○', '◙', '♂', '♀', '♪', '♫', '☼',
+    '►', '◄', '↕', '‼', '¶', '§', '▬', '↨', '↑', '↓', '→', '←', '∟', '↔', '▲', '▼',
+    ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ',', '<', '=', '>', '?',
+    '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+    'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\', ']', '^', '_',
+    '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+    'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', '⌂',
+    'Ç', 'ü', 'é', 'â', 'ä', 'à', 'å', 'ç', 'ê', 'ë', 'è', 'ï', 'î', 'ì', 'Ä', 'Å',
+    'É', 'æ', 'Æ', 'ô', 'ö', 'ò', 'û', 'ù', 'ÿ', 'Ö', 'Ü', 'ø', '£', 'Ø', '×', 'ƒ',
+    'á', 'í', 'ó', 'ú', 'ñ', 'Ñ', 'ª', 'º', '¿', '®', '¬', '½', '¼', '¡', '«', '»',
+    '░', '▒', '▓', '│', '┤', 'Á', 'Â', 'À', '©', '╣', '║', '╗', '╝', '¢', '¥', '┐',
+    '└', '┴', '┬', '├', '─', '┼', 'ã', 'Ã', '╚', '╔', '╩', '╦', '╠', '═', '╬', '¤',
+    'ð', 'Ð', 'Ê', 'Ë', 'È', 'ı', 'Í', 'Î', 'Ï', '┘', '┌', '█', '▄', '¦', 'Ì', '▀',
+    'Ó', 'ß', 'Ô', 'Ò', 'õ', '↔', 'µ', 'þ', 'Þ', 'Ú', 'Û', 'Ù', 'ý', 'Ý', '¯', '´',
+    '•', '±', '‗', '¾', '¶', '§', '÷', '¸', '°', '¨', '·', '¹', '³', '²', '■', ' ']
 
   function mcolor(color) {
     switch (color) {
@@ -327,10 +84,10 @@ var foo = !(function() {
     cad += 'const unsigned char glyphs[16] = { '
     for (i = 0; i < 16; ++i) {
       cad += (i === 0? '': ', ') +
-        (names[i].value.trim() !== ''? codes[i].value: 0) + ' ';
+        (names[i].value.trim() !== ''? codes[i].value: 0);
 
     }
-    cad += '};\n\n';
+    cad += ' };\n\n';
     cad += '// Constantes de tipo de elemento!\n';
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
@@ -376,7 +133,7 @@ var foo = !(function() {
     ctx.fill();
     ctx.fillStyle = mcolor(fg);
     ctx.font = '14pt Consolas, monospace';
-    ctx.fillText(mchar(chr), (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
+    ctx.fillText(mchar[chr], (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
   }
 
   function drawGrid() {
