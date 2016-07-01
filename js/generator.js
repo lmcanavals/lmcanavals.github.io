@@ -13,7 +13,8 @@ var foo = !(function() {
   var bx;
   var by;
   var i, j;
-  
+  var mat;
+
   // Control handlers
   var output = document.getElementById("output");
   var codes = Array(16);
