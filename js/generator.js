@@ -92,7 +92,7 @@ var foo = !(function() {
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
         cad += '#define '
-          + (names[i].value.toUpperCase() + '       ').substr(8) + i + '\n';
+          + (names[i].value.toUpperCase() + '       ').substr(0, 16) + i + '\n';
       }
     }
     cad += '\n\n';
