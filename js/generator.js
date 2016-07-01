@@ -1,27 +1,27 @@
 "use strict"
 
-var canvas;
-var ctx;
-
-// Variables
-var totalCols = 80;
-var totalRows = 24;
-var offsetx;
-var offsety;
-var cols;
-var rows;
-var bx;
-var by;
-var i, j;
-var mat;
-
-// Control handlers
-var output;
-var codes = Array(16);
-var names = Array(16);
-
 var foo = !(function() {
   // Canvas info.
+  var canvas;
+  var ctx;
+
+  // Variables
+  var totalCols = 80;
+  var totalRows = 24;
+  var offsetx;
+  var offsety;
+  var cols;
+  var rows;
+  var bx;
+  var by;
+  var i, j;
+  var mat;
+
+// Control handlers
+  var output;
+  var codes = Array(16);
+  var names = Array(16);
+
   canvas = document.getElementById('cnvs');
   ctx = canvas.getContext('2d');
   output = document.getElementById('output');
@@ -472,6 +472,7 @@ var foo = !(function() {
     var bg = parseInt(getRadioVal('bg'));
     var code = parseInt(getRadioVal('code'));
     var thing = (code << 8) + (bg << 4) + fg;
+    console.log(x);
     mat[x][y] = mat[x][y] == thing ? 0x000 : thing;
     drawmat();
   };
