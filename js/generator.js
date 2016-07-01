@@ -330,7 +330,7 @@ var foo = !(function() {
         cad += (i === 0? '': ', ') + codes[i].value + ' ';
       }
     }
-    cad += '\n\n';
+    cad += '};\n\n';
     cad += '// Constantes de tipo de elemento!\n';
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
