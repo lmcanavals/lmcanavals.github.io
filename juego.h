@@ -54,7 +54,7 @@ ConsoleColor color(int color) {
 
 void bfcolor(int bg, int fg) {
     Console::BackgroundColor = color(bg);
-    Console::ForegroundColor= color(fg);
+    Console::ForegroundColor = color(fg);
 }
 
 void frommapcolor(int m) {
