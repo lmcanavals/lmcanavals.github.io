@@ -463,7 +463,8 @@ var foo = !(function() {
   canvas.onclick = function(e) {
     var bcr = canvas.getBoundingClientRect();
     var offx = bcr.left;
-    var offy = bcr.top; 
+    var offy = bcr.top;
+    console.log(e.x);
     var x = Math.floor((e.x - offx) / bx) - offsetx;
     var y = Math.floor((e.y - offy) / by) - offsety;
     if (x < 0 || x >= cols || y < 0 || y >= rows) return;
@@ -472,7 +473,6 @@ var foo = !(function() {
     var bg = parseInt(getRadioVal('bg'));
     var code = parseInt(getRadioVal('code'));
     var thing = (code << 8) + (bg << 4) + fg;
-    console.log(x);
     mat[x][y] = mat[x][y] == thing ? 0x000 : thing;
     drawmat();
   };
