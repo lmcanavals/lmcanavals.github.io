@@ -1,29 +1,36 @@
+"use strict"
+
+var canvas;
+var ctx;
+
+// Variables
+var totalCols = 80;
+var totalRows = 24;
+var offsetx;
+var offsety;
+var cols;
+var rows;
+var bx;
+var by;
+var i, j;
+var mat;
+
+// Control handlers
+var output;
+var codes = Array(16);
+var names = Array(16);
+
 var foo = !(function() {
   // Canvas info.
-  var canvas = document.getElementById('cnvs');
-  var ctx = canvas.getContext('2d');
+  canvas = document.getElementById('cnvs');
+  ctx = canvas.getContext('2d');
+  output = document.getElementById('output');
 
-  // Variables
-  var totalCols = 80;
-  var totalRows = 24;
-  var offsetx;
-  var offsety;
-  var cols;
-  var rows;
-  var bx;
-  var by;
-  var i, j;
-  var mat;
-
-  // Control handlers
-  var output = document.getElementById("output");
-  var codes = Array(16);
-  var names = Array(16);
   for (i = 0; i < 16; ++i) {
     codes[i] = document.getElementById("char" + i);
     names[i] = document.getElementById("name" + i);
   }
-  
+
   function mchar(code) {
     switch (code) {
       case 0: return '';
@@ -305,7 +312,7 @@ var foo = !(function() {
       case 0x00f: case 0x0f0: return '#fff';
     }
   }
-  
+
   function writeMat() {
     var cad = '';
     cad += "// Caracteres como Constantes!\n";
@@ -355,7 +362,7 @@ var foo = !(function() {
     cad += '        }\n';
     cad += '    }\n';
     cad += '}\n';
-    
+
     output.value = cad;
   }
 
@@ -372,7 +379,7 @@ var foo = !(function() {
     ctx.font = "14pt Consolas, monospace";
     ctx.fillText(mchar(chr), (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
   }
-  
+
   function drawGrid() {
     // Drawing a grid.
     ctx.beginPath();
@@ -386,7 +393,7 @@ var foo = !(function() {
       ctx.lineTo(totalCols * bx, i * by);
     }
     ctx.stroke();
-    
+
     // numbers
     ctx.fillStyle = '#fff';
     ctx.font = "12pt 'Arial Narrow'";
@@ -396,7 +403,7 @@ var foo = !(function() {
     for(i = 0; i < rows; i++) {
       ctx.fillText("" + i % 10, (offsetx - 1) * bx + 1, (offsety + i + 1) * by - 4);
     }
-    
+
     // drawing actual map region
     ctx.beginPath();
     ctx.strokeStyle = '#f00';
@@ -406,7 +413,7 @@ var foo = !(function() {
 
   function drawmat() {
     canvas.width = canvas.width;
-    
+
     for(var x = 0; x < cols; x++) {
       for(var y = 0; y < rows; y++) {
         if(mat[x][y] !== 0x000) {
@@ -428,7 +435,7 @@ var foo = !(function() {
     }
     return 0;
   }
-  
+
   function init(r, c) {
     rows = r;
     cols = c;
@@ -444,14 +451,14 @@ var foo = !(function() {
     }
     drawmat();
   }
-  
+
   // boton
   document.getElementById('nuevo').onclick = function(e) {
     rows = parseInt(document.getElementById('rows').value);
     cols = parseInt(document.getElementById('cols').value);
     init(rows, cols);
   };
-  
+
   // Eventos de mouse.
   canvas.onclick = function(e) {
     var bcr = canvas.getBoundingClientRect();
@@ -468,7 +475,7 @@ var foo = !(function() {
     mat[x][y] = mat[x][y] == thing ? 0x000 : thing;
     drawmat();
   };
-  
+
   init(21, 60);
 
 })();
