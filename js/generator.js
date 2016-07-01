@@ -326,9 +326,9 @@ var foo = !(function() {
     cad += '// Caracteres!\n';
     cad += 'const unsigned char glyphs[16] = { '
     for (i = 0; i < 16; ++i) {
-      if (names[i].value.trim() !== '') {
-        cad += (i === 0? '': ', ') + codes[i].value + ' ';
-      }
+      cad += (i === 0? '': ', ') +
+        (names[i].value.trim() !== ''? codes[i].value: 0) + ' ';
+
     }
     cad += '};\n\n';
     cad += '// Constantes de tipo de elemento!\n';
@@ -347,7 +347,7 @@ var foo = !(function() {
     cad += '    cout << glyph;\n';
     cad += '}\n';
     cad += '\n';
-    cad += 'void dibujarMapa(int** m, rows, int cols) {\n';
+    cad += 'void dibujarMapa(int** m, int rows, int cols) {\n';
     cad += '    Console::Clear();\n';
     cad += '    px = 40 - cols / 2;\n';
     cad += '    py = 12 - rows / 2;\n';
