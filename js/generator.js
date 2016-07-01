@@ -464,7 +464,7 @@ var foo = !(function() {
     var bcr = canvas.getBoundingClientRect();
     var offx = bcr.left;
     var offy = bcr.top;
-    console.log(e.x);
+    console.log(e);
     var x = Math.floor((e.x - offx) / bx) - offsetx;
     var y = Math.floor((e.y - offy) / by) - offsety;
     if (x < 0 || x >= cols || y < 0 || y >= rows) return;
