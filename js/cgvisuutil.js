@@ -4,6 +4,8 @@ const
   FLOAT   = 2,
   STRING  = 3,
   DATE    = 4;
+  YMIN    = -4400;
+  YMAX    = 2020;
 
 
 function convert(d, type) {
