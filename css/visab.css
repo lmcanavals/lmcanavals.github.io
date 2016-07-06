@@ -3,8 +3,8 @@ body {
   margin: 0 auto;
 }
 
-circle {
-  fill-opacity: 0.25;
+circle, rect {
+  fill-opacity: 0.2;
   stroke: black;
   stroke-width: .5px;
   stroke-opacity: .5;
