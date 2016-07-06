@@ -32,16 +32,16 @@
   var gMap = svg.append('g');
   var gData = svg.append('g');
   var vproj = [
-  {'id': 0, 'name': 'Orthographic', 'projection': d3.geo.orthographic()
-    .scale(height * .5)
-    .translate([width / 2, height / 2])
-    .clipAngle(90)},
+  {'id': 0, 'name': 'Natural Earth', 'projection': d3.geo.naturalEarth()
+    .scale(height * .315)
+    .translate([width / 2, height / 2])},
   {'id': 1, 'name': 'Kavrayskiy VII', 'projection': d3.geo.kavrayskiy7()
     .scale(height * .315)
     .translate([width / 2, height / 2])},
-  {'id': 2, 'name': 'Natural Earth', 'projection': d3.geo.naturalEarth()
-    .scale(height * .315)
-    .translate([width / 2, height / 2])}];
+  {'id': 2, 'name': 'Orthographic', 'projection': d3.geo.orthographic()
+    .scale(height * .5)
+    .translate([width / 2, height / 2])
+    .clipAngle(90)}];
   var projection;
   var path = d3.geo.path();
 
@@ -169,7 +169,6 @@
         return 'rgb(255, ' + rb + ', ' + rb + ')';
       });
     rects.exit().remove();
-    updateTsuStuff();
   }
 
   d3.tsv(datafileTsu, doTypesTsu, dataProcessingTsu);
