@@ -20,15 +20,22 @@
     <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
-    <title>Canaval.org</title>
+    <title>lmcanavals</title>
     <style>
-    .content { margin: 0 auto; width: 960px }
-    header { text-align: center }
+    .content    { margin: 0 auto; width: 1280px }
+    body        { font-family: monospace }
+    header      { color: OrangeRed; font-size: 2em; text-align: center }
+    p           { color: LightSteelBlue }
     </style>
   </head>
   <body>
     <div class="content">
-    <header>436f6d6d696e6720736f6f6e2e2e2e</header>
+      <header>Here, have Conway's Game of Life!</header>
+      <p>Press P to start or pause</p>
+      <canvas id="cnvs" width="1280" height="780"></canvas>
+      <p>Lima, Perú</p>
     </div>
+
+    <script src="js/gofl.js"></script>
   </body>
 </html>

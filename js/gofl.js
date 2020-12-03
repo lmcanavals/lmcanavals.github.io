@@ -1,122 +1,121 @@
-var foo = !(function() {
-  // Useful constants.
-  var BOX_SIDE = 10;
-  var DELAY = 150;
-  var ZERO = 0;
-  var ONE = 1;
-  var RADIO = BOX_SIDE >> 1;
-  var RAD_START = 0;
-  var RAD_END = 2 * Math.PI;
+const foo = !(() => {
 
-  // Canvas info.
-  var canvas = document.getElementById('cnvs');
-  var width = canvas.width / BOX_SIDE;
-  var height = canvas.height / BOX_SIDE;
-  var context = canvas.getContext('2d');
+    console.log("------------------------------------------------------------");
+    console.log("Hello, I'm Luis Martín Canaval Sánchez from Huamachuco, Perú");
+    console.log("Find me at:");
+    console.log("{github.com,twitter.com,instagram.com}/lmcanavals");
+    console.log("------------------------------------------------------------");
+    console.log("Here, have some emojis:");
+    console.log("🐺 🦠 👾 🤖 👽");
 
-  // Auxiliar variables.
-  var running = false;
-  var intervalId;
+    // Useful constants.
+    const BOX_SIDE = 5;
+    const DELAY = 150;
+    const ZERO = 0;
+    const ONE = 1;
+    const RADIO = BOX_SIDE >> 1;
+    const RAD_START = 0;
+    const RAD_END = 2 * Math.PI;
+    const FILL_COLOR = "PowderBlue";
+    const STROKE_COLOR = "LightSteelBlue";
 
-  // Two dimensional array to hold the cells.
-  var cells = new Array(width);
-  var prevGen = new Array(width);
-  for(var i = 0; i < width; i++) {
-    cells[i] = new Int8Array(height);
-    prevGen[i] = new Int8Array(height);
-    for (var j = 0; j < height; j++) {
-      cells[i][j] = Math.floor(Math.random() * 100) > 80? ONE: ZERO;
-    }
-  }
+    // Canvas info.
+    const canvas = document.getElementById('cnvs');
+    const cols = canvas.width / BOX_SIDE;
+    const rows = canvas.height / BOX_SIDE;
+    const context = canvas.getContext('2d');
 
-  function drawCells() {
-    canvas.width = canvas.width;
-    // Drawing a grid.
-    context.beginPath();
-    context.strokeStyle = '#444444';
-    for(var i = 0; i <= width; i++) {
-      context.moveTo(i * BOX_SIDE, 0);
-      context.lineTo(i * BOX_SIDE, height * BOX_SIDE);
-    }
-    for(i = 0; i <= height; i++) {
-      context.moveTo(0, i * BOX_SIDE);
-      context.lineTo(width * BOX_SIDE, i * BOX_SIDE);
-    }
-    context.stroke();
+    // Auxiliar variables.
+    let running = false;
+    let intervalId;
 
-    // drawCells
-    for(var x = 0; x < width; x++) {
-      for(var y = 0; y < height; y++) {
-        if(cells[x][y] == ONE) {
-          context.beginPath();
-          context.fillStyle = '#008800';
-          context.arc(x * BOX_SIDE + RADIO, y * BOX_SIDE + RADIO, RADIO,
-              RAD_START, RAD_END);
-          context.fill();
-          context.strokeStyle = '#003300';
-          context.stroke();
+    // Two dimensional array to hold the cells.
+    let cells = new Array(rows);
+    let prevGen = new Array(cols);
+    for (let i = 0; i < rows; ++i) {
+        cells[i] = new Int8Array(cols);
+        prevGen[i] = new Int8Array(cols);
+        for (let j = 0; j < cols; ++j) {
+            cells[i][j] = Math.floor(Math.random() * 100) > 80? ONE: ZERO;
         }
-      }
     }
-  }
 
-  // Counts the number of cell neighbours.
-  function countNeighbours(x, y) {
-    var count = 0;
-    count += x > 0 && y > 0 ? prevGen[x - 1][y - 1] : 0;
-    count += y > 0 ? prevGen[x][y - 1] : 0;
-    count += x < width - 1 && y > 0 ? prevGen[x + 1][y - 1] : 0;
-    count += x > 0 ? prevGen[x - 1][y] : 0;
-    count += x < width - 1 ? prevGen[x + 1][y] : 0;
-    count += x > 0 && y < height - 1 ? prevGen[x - 1][y + 1] : 0;
-    count += y < height - 1 ? prevGen[x][y + 1] : 0;
-    count += x < width - 1 && y < height - 1 ? prevGen[x + 1][y + 1] : 0;
-    return count;
-  }
+    /** Draws cells represented by 1 values in the cells matrix */
+    function drawCells() {
+        canvas.width = canvas.width;
 
-  // Defining main loop routine.
-  var mainLoop = function() {
-    // switch grid and prevGen.
-    var temp = cells;
-    cells = prevGen;
-    prevGen = temp;
-
-    // evaluate each cell and calculate the next generation.
-    for(var x = 0; x < width; x++) {
-      for(var y = 0; y < height; y++) {
-        var neighbours = countNeighbours(x, y);
-        var prevCell = prevGen[x][y];
-        var val = ZERO;
-        // optimized version of the 3 rules of game of life.
-        if (neighbours == 3 || (prevCell == 1 && neighbours == 2)) {
-            val = ONE;
+        context.fillStyle = FILL_COLOR;
+        context.strokeStyle = STROKE_COLOR;
+        for(let i = 0; i < rows; ++i) {
+            for(let j = 0; j < cols; ++j) {
+                if(cells[i][j] == ONE) {
+                    context.beginPath();
+                    context.arc(j * BOX_SIDE + RADIO,
+                                i * BOX_SIDE + RADIO,
+                                RADIO, RAD_START, RAD_END);
+                    context.fill();
+                    context.stroke();
+                }
+            }
         }
-        cells[x][y] = val;
-      }
     }
-    drawCells();
-  };
 
-  // Eventos de teclado.
-  window.onkeypress = function(e) {
-    // stoping/resuming main loop.
-    if(e.keyCode == 112) { // 'p'
-      if(running) {
-        clearInterval(intervalId);
-      } else {
-        intervalId = setInterval(mainLoop, DELAY);
-      }
-      running = !running;
+    /**
+     * Get the number of neighbours around the cell at the i, j position.
+     * @return {number} the number of neighbours.
+     */
+    function countNeighbours(i, j) {
+        let count = 0;
+        for (let [p, q] of [[(i - 1 + rows) % rows, (j - 1 + cols) % cols],
+                            [(i - 1 + rows) % rows, j],
+                            [(i - 1 + rows) % rows, (j + 1) % cols],
+                            [i, (j - 1 + cols) % cols],
+                            [i, (j + 1) % cols],
+                            [(i + 1) % rows, (j - 1 + cols) % cols],
+                            [(i + 1) % rows, j],
+                            [(i + 1) % rows, (j + 1) % cols]]) {
+            count += prevGen[p][q];
+        }
+        return count;
     }
-  };
 
-  // Eventos de mouse.
-  canvas.onclick = function(e) {
-    var x = Math.floor((e.x - canvas.offsetLeft) / BOX_SIDE);
-    var y = Math.floor((e.y - canvas.offsetTop) / BOX_SIDE);
-    cells[x][y] = cells[x][y] == ONE ? ZERO : ONE;
+    /** The main look of the animation */
+    function mainLoop() {
+        [cells, prevGen] = [prevGen, cells]
+        for(let i = 0; i < rows; ++i) {
+            for(let j = 0; j < cols; ++j) {
+                let count = countNeighbours(i, j);
+                let val = ZERO;
+                // optimized version of the 3 rules of game of life.
+                if (count == 3 || (prevGen[i][j] == 1 && count == 2)) {
+                    val = ONE;
+                }
+                cells[i][j] = val;
+            }
+        }
+        drawCells();
+    };
+
+    /** @callback keypress callback */
+    window.onkeypress = e => {
+        // stoping/resuming main loop.
+        if(e.keyCode == 112) { // 'p'
+            if(running) {
+                clearInterval(intervalId);
+            } else {
+                intervalId = setInterval(mainLoop, DELAY);
+            }
+            running = !running;
+        }
+    };
+
+    /** @callback click callback */
+    canvas.onclick = e => {
+        let [j, i] = [Math.floor((e.x - canvas.offsetLeft) / BOX_SIDE),
+                      Math.floor((e.y - canvas.offsetTop) / BOX_SIDE)];
+        cells[i][j] = cells[i][j] == ONE ? ZERO : ONE;
+        drawCells();
+    };
+
     drawCells();
-  };
-
-  drawCells();
 })();
