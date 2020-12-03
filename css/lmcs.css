@@ -1,0 +1,15 @@
+body {
+    font-family: monospace
+}
+header {
+    color: OrangeRed;
+    font-size: 2em;
+    text-align: center
+}
+p {
+    color: LightSteelBlue
+}
+#content {
+    margin: 0 auto;
+    width: 1280px
+}

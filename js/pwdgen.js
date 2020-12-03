@@ -1,14 +1,14 @@
-!(function(document, window) {
-  window.onload = function() {
-    var generate = document.getElementById("generate");
+!((document, window) => {
+  window.onload = () => {
+    const generate = document.getElementById("generate");
     generate.onclick = function() {
-      var product = document.getElementById("product");
-      var upp = document.getElementById("upp");
-      var low = document.getElementById("low");
-      var num = document.getElementById("num");
-      var cusval = document.getElementById("cus").value;
-      var lenval = document.getElementById("len").value;
-      var s = "";
+      const product = document.getElementById("product"),
+            upp = document.getElementById("upp"),
+            low = document.getElementById("low"),
+            num = document.getElementById("num"),
+            cusval = document.getElementById("cus").value,
+            lenval = document.getElementById("len").value;
+      let s = "";
       if (upp.checked) {
         s += "AOEUISNTHDQJKXZVWMBPYLCGRF";
       }
@@ -19,7 +19,7 @@
         s += "6549873210";
       }
       s += cusval.replace(/ /g, "");
-      var a = "";
+      let a = "";
       while (a.length < lenval) {
         a += s.charAt(Math.floor(Math.random() * s.length));
       }

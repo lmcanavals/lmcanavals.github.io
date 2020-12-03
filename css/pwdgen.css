@@ -1,5 +1,6 @@
 #wrapper {
   margin: 0 auto;
+  text-align: center;
 }
 input {
   font-size: 1em;
@@ -25,7 +26,7 @@ label, button {
     font-size: 200%;
   }
   #wrapper {
-    width: 30em;
+    width: 40em;
   }
 }
 /* 1em = 16px:

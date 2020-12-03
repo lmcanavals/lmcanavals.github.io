@@ -1,37 +1,32 @@
 "use strict"
 
-var foo = !(function() {
-  // Canvas info.
-  var canvas;
-  var ctx;
-
-  // Variables
-  var totalCols = 80;
-  var totalRows = 24;
-  var offsetx;
-  var offsety;
-  var cols;
-  var rows;
-  var bx;
-  var by;
-  var i, j;
-  var mat;
+const foo = !(() => {
+  const totalCols = 80,
+        totalRows = 24;
+  let   offsetx,
+        offsety,
+        cols,
+        rows,
+        bx,
+        by,
+        i, j,
+        mat;
 
 // Control handlers
-  var output;
-  var codes = Array(16);
-  var names = Array(16);
+  let   codes = Array(16),
+        names = Array(16);
 
-  canvas = document.getElementById('cnvs');
-  ctx = canvas.getContext('2d');
-  output = document.getElementById('output');
+  const canvas  = document.getElementById('cnvs'),
+        ctx     = canvas.getContext('2d'),
+        cpp     = document.getElementById('cpp'),
+        map     = document.getElementById('map');
 
   for (i = 0; i < 16; ++i) {
     codes[i] = document.getElementById('char' + i);
     names[i] = document.getElementById('name' + i);
   }
 
-  var mchar = [
+  const mchar = [
     ' ', '☺', '☻', '♥', '♦', '♣', '♠', '•', '◘', '○', '◙', '♂', '♀', '♪', '♫', '☼',
     '►', '◄', '↕', '‼', '¶', '§', '▬', '↨', '↑', '↓', '→', '←', '∟', '↔', '▲', '▼',
     ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
@@ -71,100 +66,102 @@ var foo = !(function() {
   }
 
   function writeMat() {
-    var cad = '';
-    cad +=rows + ' ' + cols + '\n';
+    let cad = rows + ' ' + cols + '\n';
     for (i = 0; i < rows; ++i) {
       for (j = 0; j < cols; ++j) {
         cad += (j === 0? '': ' ') + '0x' + ('00' + mat[j][i].toString(16)).substr(-3);
       }
       cad += '\n';
     }
-    cad += '\n\n\n\n';
-    cad += '/// Copie de aqui en adelante a su programa\n\n';
-    cad += '#include "juego.h"\n\n';
-    cad += '// Caracteres!\n';
-    cad += 'const unsigned char glyphs[16] = { '
+    map.value = cad;
+
+    cad = `#include "juego.h"
+
+// Caracteres!
+const unsigned char glyphs[16] = { `
+
     for (i = 0; i < 16; ++i) {
       cad += (i === 0? '': ', ') +
         (names[i].value.trim() !== ''? codes[i].value: 0);
 
     }
-    cad += ' };\n\n';
-    cad += '// Constantes de tipo de elemento!\n';
+    cad += ` };
+
+// Constantes de tipo de elemento!
+`
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
-        cad += '#define ' + names[i].value.toUpperCase() + ' ' + i + '\n';
+        cad += `#define ${names[i].value.toUpperCase()}\t${i}\n`;
       }
     }
-    cad += '\n\n';
+    cad += `
+int px;
+int py;
 
-    cad += 'int px;\n';
-    cad += 'int py;\n';
-    cad += '\n';
-    cad += 'void padPrint(int x, int y, unsigned char glyph) {\n';
-    cad += '    Console::SetCursorPosition(px + x, py + y);\n';
-    cad += '    cout << glyph;\n';
-    cad += '}\n';
-    cad += '\n';
-    cad += 'void dibujarMapa(int** m, int rows, int cols) {\n';
-    cad += '    Console::Clear();\n';
-    cad += '    px = 40 - cols / 2;\n';
-    cad += '    py = 12 - rows / 2;\n';
-    cad += '    for (int i = 0; i < rows; ++i) {\n';
-    cad += '        for (int j = 0; j < cols; ++j) {\n';
-    cad += '            int obj = objeto(m[i][j]);\n';
-    cad += '            if (obj != VACIO) {\n';
-    cad += '                frommapcolor(m[i][j]);\n';
-    cad += '                padPrint(j, i, glyphs[obj]);\n';
-    cad += '            }\n';
-    cad += '        }\n';
-    cad += '    }\n';
-    cad += '}\n';
+void padPrint(int x, int y, unsigned char glyph) {
+    Console::SetCursorPosition(px + x, py + y);
+    cout << glyph;
+}
 
-    output.value = cad;
+void dibujarMapa(int** m, int rows, int cols) {
+    Console::Clear();
+    px = 40 - cols / 2;
+    py = 12 - rows / 2;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            int obj = objeto(m[i][j]);
+            if (obj != VACIO) {
+                frommapcolor(m[i][j]);
+                padPrint(j, i, glyphs[obj]);
+            }
+        }
+    }
+}
+`
+    cpp.value = cad;
   }
 
   function pintaXY(x, y) {
-    var fg = mat[x][y] & 0x00f;
-    var bg = mat[x][y] & 0x0f0;
-    var code = (mat[x][y] & 0xf00) >> 8;
-    var chr = parseInt(codes[code].value);
+    const fg = mat[x][y] & 0x00f,
+          bg = mat[x][y] & 0x0f0,
+          code = (mat[x][y] & 0xf00) >> 8,
+          chr = parseInt(codes[code].value);
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
     ctx.fillStyle = mcolor(bg);
     ctx.fill();
     ctx.fillStyle = mcolor(fg);
-    ctx.font = '14pt Consolas, monospace';
+    ctx.font = `${Math.floor(by*0.75)}px Consolas, monospace`;
     ctx.fillText(mchar[chr], (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
   }
 
   function drawGrid() {
     // Drawing a grid.
     ctx.beginPath();
-    ctx.strokeStyle = '#333';
-    for(i = 0; i <= totalCols; i++) {
+    ctx.strokeStyle = '#123';
+    for(i = 0; i <= totalCols; ++i) {
       ctx.moveTo(i * bx, 0);
       ctx.lineTo(i * bx, totalRows * by);
     }
-    for(i = 0; i <= totalRows; i++) {
+    for(i = 0; i <= totalRows; ++i) {
       ctx.moveTo(0, i * by);
       ctx.lineTo(totalCols * bx, i * by);
     }
     ctx.stroke();
 
     // numbers
-    ctx.fillStyle = '#fff';
-    ctx.font = '12pt "Arial Narrow"';
-    for(i = 0; i < cols; i++) {
+    ctx.fillStyle = 'OrangeRed';
+    ctx.font = '12pt Consolas';
+    for(i = 0; i < cols; ++i) {
       ctx.fillText('' + i % 10, (i + offsetx) * bx + 3, offsety * by - 5);
     }
-    for(i = 0; i < rows; i++) {
+    for(i = 0; i < rows; ++i) {
       ctx.fillText('' + i % 10, (offsetx - 1) * bx + 1, (offsety + i + 1) * by - 4);
     }
 
     // drawing actual map region
     ctx.beginPath();
-    ctx.strokeStyle = '#f00';
+    ctx.strokeStyle = 'OrangeRed';
     ctx.rect(offsetx * bx - 2, offsety * by - 2, cols * bx + 4, rows * by + 4);
     ctx.stroke();
   }
@@ -172,8 +169,8 @@ var foo = !(function() {
   function drawmat() {
     canvas.width = canvas.width;
 
-    for(var x = 0; x < cols; x++) {
-      for(var y = 0; y < rows; y++) {
+    for(let x = 0; x < cols; ++x) {
+      for(let y = 0; y < rows; ++y) {
         if(mat[x][y] !== 0x000) {
           pintaXY(x, y);
         }
@@ -184,9 +181,9 @@ var foo = !(function() {
   }
 
   function getRadioVal(nom) {
-    var radios = document.getElementsByName(nom);
+    const radios = document.getElementsByName(nom);
 
-    for (i = 0, length = radios.length; i < length; i++) {
+    for (i = 0, length = radios.length; i < length; ++i) {
         if (radios[i].checked) {
             return radios[i].value;
         }
@@ -204,7 +201,7 @@ var foo = !(function() {
 
     // Two dimensional array to hold the mat.
     mat = new Array(cols);
-    for(i = 0; i < cols; i++) {
+    for(i = 0; i < cols; ++i) {
       mat[i] = new Int16Array(rows);
     }
     drawmat();
@@ -218,22 +215,22 @@ var foo = !(function() {
   };
 
   // Eventos de mouse.
-  canvas.onclick = function(e) {
-    var bcr = canvas.getBoundingClientRect();
-    var offx = bcr.left;
-    var offy = bcr.top;
-    var x = Math.floor((e.clientX - offx) / bx) - offsetx;
-    var y = Math.floor((e.clientY - offy) / by) - offsety;
+  canvas.onclick = e => {
+    const bcr = canvas.getBoundingClientRect(),
+          offx = bcr.left,
+          offy = bcr.top,
+          x = Math.floor((e.clientX - offx) / bx) - offsetx,
+          y = Math.floor((e.clientY - offy) / by) - offsety;
     if (x < 0 || x >= cols || y < 0 || y >= rows) return;
 
-    var fg = parseInt(getRadioVal('fg'));
-    var bg = parseInt(getRadioVal('bg'));
-    var code = parseInt(getRadioVal('code'));
-    var thing = (code << 8) + (bg << 4) + fg;
+    const fg = parseInt(getRadioVal('fg')),
+          bg = parseInt(getRadioVal('bg')),
+          code = parseInt(getRadioVal('code')),
+          thing = (code << 8) + (bg << 4) + fg;
     mat[x][y] = mat[x][y] == thing ? 0x000 : thing;
     drawmat();
   };
 
-  init(21, 60);
+  init(22, 60);
 
 })();
