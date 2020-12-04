@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ site.lang | default: "en-US" }}">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
@@ -9,15 +11,44 @@
     <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#da532c">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#da532c">
-    <title>{{ page.title | site.name }}</title>
+    
     <link rel="stylesheet" href="/css/lmcs.css">
-    <script src="/js/lmcs.js"></script>
+    <script>
+      const _unicode = c => String.fromCodePoint(c);
+      console.log(`***
++--------------------------------------------------------------+
+| Hello, I'm Luis Martín Canaval Sánchez from Huamachuco, Perú |
+| Find me at:                                                  |
+| {github.com,twitter.com,instagram.com}/lmcanavals            |
++--------------------------------------------------------------+
+Here, have some emojis:
+${_unicode(128058)} ${_unicode(129440)} ${_unicode( 128126)} ${_unicode(129302)} ${_unicode(128125)}`);
+    </script>
+{% seo %}
   </head>
   <body>
-    <header>There are things better left unseen</header>
+    <header>
+      <div class="container">
+        <a id="a-title" href="/">
+          <h1>There are things better left unseen</h1>
+        </a>
+      </div>
+    </header>
     <div class="container">
-      {{ content }}	
+      <section id="main_content">
+        {{ content }}	
+      </section>
     </div>
     <footer>Lima, Perú - 2020</footer>
+    {% if site.google_analytics %}
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', '{{ site.google_analytics }}', 'auto');
+        ga('send', 'pageview');
+      </script>
+    {% endif %}
   </body>
 </html>
