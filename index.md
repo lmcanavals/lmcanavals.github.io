@@ -2,6 +2,6 @@
 layout: default
 title: lmcs::index
 ---
-      <p>Press P to start or pause</p>
+      Press `P` to start or pause.
       <canvas id="cnvs" width="1280" height="780"></canvas>
       <script src="/js/gofl.js"></script>
