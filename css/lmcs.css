@@ -96,15 +96,15 @@
 body {
     margin: 0;
     padding: 0;
-    background: #151515 url("../images/bkg.png") 0 0;
+    background: #151515 url("/assets/bkg.png") 0 0;
     color: #eaeaea;
     font-size: 16px;
     line-height: 1.5;
-    font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+    font-family: monospace;
 }
 .container {
     width: 90%;
-    max-width: 1000px;
+    max-width: 1280px;
     margin: 0 auto;
 }
 section {
@@ -117,6 +117,7 @@ h3,
 h4,
 h5,
 h6 {
+    color: Orange;
     margin: 0 0 20px;
 }
 li {
@@ -125,7 +126,7 @@ li {
 header {
     background: rgba(0, 0, 0, 0.1);
     width: 100%;
-    border-bottom: 1px dashed #b5e853;
+    border-bottom: 1px dashed Orange;
     padding: 20px 0;
     margin: 0 0 40px 0;
 }
@@ -134,8 +135,6 @@ header h1 {
     line-height: 1.5;
     margin: 0 0 0 -40px;
     font-weight: bold;
-    font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
-    color: #b5e853;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(181, 232, 83, 0.1), 0 0 10px rgba(181, 232, 83, 0.1);
     letter-spacing: -1px;
     -webkit-font-smoothing: antialiased;
@@ -146,13 +145,12 @@ header h1 {
     }
 }
 header h1:before {
-    content: "./ ";
+    content: "λ ";
     font-size: 24px;
 }
 header h2 {
     font-size: 18px;
     font-weight: 300;
-    color: #666;
 }
 #downloads .btn {
     display: inline-block;
@@ -173,8 +171,6 @@ h4,
 h5,
 h6 {
     font-weight: normal;
-    font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
-    color: #b5e853;
     letter-spacing: -0.03em;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(181, 232, 83, 0.1), 0 0 10px rgba(181, 232, 83, 0.1);
 }
@@ -205,9 +201,9 @@ dt {
     font-style: italic;
     font-weight: bold;
 }
-ul li {
+/*ul li {
     list-style-image: url("../images/bullet.png");
-}
+}*/
 blockquote {
     color: #aaa;
     padding-left: 10px;
@@ -218,7 +214,7 @@ pre {
     border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 10px;
     font-size: 16px;
-    color: #b5e853;
+    color: Orange;
     border-radius: 2px;
     word-wrap: normal;
     overflow: auto;
@@ -238,7 +234,7 @@ table {
 }
 th {
     text-align: left;
-    border-bottom: 1px dashed #b5e853;
+    border-bottom: 1px dashed Orange;
     padding: 5px 10px;
 }
 td {
@@ -247,8 +243,8 @@ td {
 hr {
     height: 0;
     border: 0;
-    border-bottom: 1px dashed #b5e853;
-    color: #b5e853;
+    border-bottom: 1px dashed Orange;
+    color: Orange;
 }
 .btn {
     display: inline-block;
@@ -259,7 +255,6 @@ hr {
     border-bottom: 2px solid rgba(0, 0, 0, 0.7);
     border-top: 2px solid #000;
     color: rgba(255, 255, 255, 0.8);
-    font-family: Helvetica, Arial, sans-serif;
     font-weight: bold;
     font-size: 13px;
     text-decoration: none;
@@ -276,9 +271,9 @@ hr {
     margin: 1px 8px 0 0;
     float: left;
 }
-.btn-github .icon {
+.btn-canaval .icon {
     opacity: 0.6;
-    background: url("../images/blacktocat.png") 0 0 no-repeat;
+    background: url("/assets/btn.png") 0 0 no-repeat;
 }
 a {
     color: #63c0f5;
