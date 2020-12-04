@@ -1,18 +1,7 @@
 const foo = !(() => {
-    const u = c => String.fromCodePoint(c);
-    console.log(`
-+--------------------------------------------------------------+
-| Hello, I'm Luis Martín Canaval Sánchez from Huamachuco, Perú |
-| Find me at:                                                  |
-| {github.com,twitter.com,instagram.com}/lmcanavals            |
-+--------------------------------------------------------------+
-Here, have some emojis:
-${u(128058)} ${u(129440)} ${u( 128126)} ${u(129302)} ${u(128125)}
-`);
-
     // Useful constants.
     const BOX_SIDE = 5;
-    const DELAY = 150;
+    const DELAY = 250;
     const ZERO = 0;
     const ONE = 1;
     const RADIO = BOX_SIDE >> 1;
