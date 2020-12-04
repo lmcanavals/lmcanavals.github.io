@@ -1,15 +1,13 @@
 body {
-    font-family: monospace
+    font-family: monospace;
+    margin: 25px auto;
+    width: 1280px;
 }
 header {
     color: OrangeRed;
     font-size: 2em;
-    text-align: center
+    text-align: center;
 }
-p {
-    color: LightSteelBlue
-}
-#content {
-    margin: 0 auto;
-    width: 1280px
+footer {
+    color: LightSteelBlue;
 }
