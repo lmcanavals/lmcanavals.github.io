@@ -48,7 +48,7 @@ const foo = !(() => {
                   "#555", "#f00", "#0f0", "#ff0", "#00f", "#f0f", "#0aa", "#fff"];
 
   function mcolor(color) {
-    return colors[(color & 0x00f) == 0? (color >> 8) : color];
+    return colors[(color & 0x00f) == 0? (color >> 4) : color];
   }
 
   function writeMat() {
@@ -75,10 +75,10 @@ const unsigned char glyphs[16] = { `]
 `);
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
-        cad.push(`#define ${names[i].value.toUpperCase()}\t${i}\n`);
+        cad2.push(`#define ${names[i].value.toUpperCase()}\t${i}\n`);
       }
     }
-    cad.push(`
+    cad2.push(`
 int px;
 int py;
 
@@ -146,7 +146,8 @@ void dibujarMapa(int** m, int rows, int cols) {
   }
 
   function drawmat() {
-    canvas.width = canvas.width;
+    ctx.fillStyle = "Black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     for(let x = 0; x < cols; ++x) {
       for(let y = 0; y < rows; ++y) {
