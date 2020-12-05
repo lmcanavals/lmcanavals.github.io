@@ -54,7 +54,7 @@ colors:
 {%- for i in (0..7) -%}
       <td style="background-color: {{ page.colors[i] }}">
         <label for="bg{{ i }}">
-          <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>{{ i }}
+          <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>
         </label>
       </td>
 {%- endfor -%}
@@ -63,7 +63,7 @@ colors:
 {%- for i in (8..15) -%}
       <td style="background-color: {{ page.colors[i] }}">
         <label for="bg{{ i }}">
-          <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}">Test
+          <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}">
         </label>
       </td>
 {%- endfor -%}
