@@ -30,7 +30,7 @@ const foo = !(() => {
   names[2].value = 'enemy';   codes[2].value = '15';
   names[3].value = 'life';    codes[3].value = '3';
   names[4].value = 'bullet';  codes[4].value = '7';
-  names[6].value = 'bullet';  codes[6].value = '219';
+  names[6].value = 'block';  codes[6].value = '219';
 
   const mchar = [
     ' ', '☺', '☻', '♥', '♦', '♣', '♠', '•', '◘', '○', '◙', '♂', '♀', '♪', '♫', '☼',
