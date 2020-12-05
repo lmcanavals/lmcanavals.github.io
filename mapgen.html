@@ -1,90 +1,39 @@
 ---
 layout: default
 title: Map generator
-colors:
-  - Black
-  - Maroon
-  - Green
-  - Olive
-  - Navy
-  - Purple
-  - Teal
-  - Silver
-  - Gray
-  - Red
-  - Lime
-  - Yellow
-  - Blue
-  - Fuchsia
-  - Aqua
-  - White
+custom_css: mapgen
 ---
 
-<style>
-  .tr {
-    display: table-row;
-  }
-  .tc {
-    display: table-cell;
-  }
-</style>
 <h2>Sort of a text mode game map generator</h2>
 <div class="tr">
   <div class="tc">
     <label for="rows">Rows: </label><input type="number" id="rows" value="22" min="10" max="24">
     <label for="cols">Columns: </label><input type="number" id="cols" value="60" min="20" max="80">
     <button id="nuevo">Nuevo!</button>
-    <table>
-      <tr>
-        <td colspan="8">Foreground color</td>
-      </tr>
-      <tr>
-{%- for i in (0..7) -%}
-        <td style="background-color: Black; color: {{ page.colors[i] }}">
-          <label for="fg{{ i }}">
-            <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
-          </label>
-        </td>
+    <div class="tr">
+      <h4>Foreground color</h4>
+{%- for i in (0..15) -%}
+      <div class="fg{{ i }} ctc">
+        <label for="fg{{ i }}">
+          <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
+        </label>
+      </div>
 {%- endfor -%}
-      </tr>
-      <tr>
-{%- for i in (8..15) -%}
-        <td style="background-color: Black; color: {{ page.colors[i] }}">
-          <label for="fg{{ i }}">
-            <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}">{{ i }}
-          </label>
-        </td>
+      <h4>Background color</h4>
+{%- for i in (0..15) -%}
+      <div class="bg{{ i }} ctc">
+        <label for="bg{{ i }}">
+          <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>
+        </label>
+      </div>
 {%- endfor -%}
-      </tr>
-      <tr>
-        <td colspan="8">Background color</td>
-      </tr>
-      <tr>
-{%- for i in (0..7) -%}
-        <td style="background-color: {{ page.colors[i] }}">
-          <label for="bg{{ i }}">
-            <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>
-          </label>
-        </td>
-{%- endfor -%}
-      </tr>
-      <tr>
-{%- for i in (8..15) -%}
-        <td style="background-color: {{ page.colors[i] }}">
-          <label for="bg{{ i }}">
-            <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}">
-          </label>
-        </td>
-{%- endfor -%}
-      </tr>
-    </table>
   </div>
   <div class="tc">
 {%- for i in (0..15) -%}
     <label for="code{{ i }}" style="width: 160px; inline: block;">
       <input type="radio" id="code{{ i }}" name="code" value=""{%- if i == 0 -%} checked{%- endif -%}>
       <input type="number" id="char{{ i }}" min="1" max="255"{%- if i == 0 -%} value="0" readonly{%- endif -%}>
-      <input type="text" id="name{{ i }}" style="width: 30px;">
+      <input type="text" id="name{{ i }}" style="width: 60px;">
     </label>
 {%- endfor -%}
   </div>
