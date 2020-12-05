@@ -13,6 +13,11 @@
     <meta name="theme-color" content="#da532c">
     
     <link rel="stylesheet" href="/css/lmcs.css">
+{%- if page.custom_css -%}
+{%- for stylesheet in page.custom_css -%}
+    <link rel="stylesheet" href="/css/{{ stylesheet }}.css">
+{%- endfor -%}
+{%- endif -%}
     <script>
       console.info(`***
 +---------------------------------------------------------------+
