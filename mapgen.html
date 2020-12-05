@@ -36,7 +36,7 @@ colors:
       {%- for i in (0..15) -%}
         <td>
           <input type="radio" id="code{{ i }}" value=""{%- if i == 0 -%} checked{%- endif -%}>
-          <input type="number" id="char{{ i }}" value=""{%- if i == 0 -%}  min="1" max="5" readonly{%- endif -%}>
+          <input type="number" id="char{{ i }}" {%- if i == 0 -%}value="0" readonly{%- else -%} min="1" max="255"{%- endif -%}>
           <input type="text" id="name{{ i }}" value="" style="width: 50px;">
         </td>
       {%- endfor -%}
@@ -52,7 +52,7 @@ colors:
     <tr>
       <td>Foreground: </td>
       {% for i in (0..15) %}
-        <td style="color: #{{ page.colors[i] }}">
+        <td style="background-color: Black; color: #{{ page.colors[i] }}">
           <input type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
         </td>
       {% endfor %}
