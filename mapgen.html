@@ -20,41 +20,36 @@ colors:
   - fff
 ---
 
-<h2>Generador de matrices de mapas</h2>
+<h2>Sort of a text mode game map generator</h2>
 <div>
-  <table>
-    <tr>
-      <td>Filas: </td><td><input type="number" id="rows" value="22"></td>
-      <td>Columnas: </td><td><input type="number" id="cols" value="60"></td>
-      <td><button id="nuevo">Nuevo!</button></td>
-    </tr>
-  </table>
+  <label for="rows">Rows: </label><input type="number" id="rows" value="22" min="10" max="24">
+  <label for="cols">Columns: </label><input type="number" id="cols" value="60" min="20" max="80">
+  <button id="nuevo">Nuevo!</button>
+  
+  Código: </td>
+  {%- for i in (0..15) -%}
+  <label for="code{{ i }}">
+    <input type="radio" id="code{{ i }}" value=""{%- if i == 0 -%} checked{%- endif -%}>
+    <input type="number" id="char{{ i }}" style="width: 30px;" {%- if i == 0 -%}value="0" readonly{%- else -%} min="1" max="255"{%- endif -%}>
+    <input type="text" id="name{{ i }}" style="width: 30px;">
+  </label>
+  {%- endfor -%}
 
   <table>
     <tr>
-    <td>Código: </td>
-      {%- for i in (0..15) -%}
-        <td>
-          <input type="radio" id="code{{ i }}" value=""{%- if i == 0 -%} checked{%- endif -%}>
-          <input type="number" id="char{{ i }}" {%- if i == 0 -%}value="0" readonly{%- else -%} min="1" max="255"{%- endif -%}>
-          <input type="text" id="name{{ i }}" value="" style="width: 50px;">
-        </td>
-      {%- endfor -%}
-    </tr>
-    <tr>
       <td>Background: </td>
       {%- for i in (0..15) -%}
-        <td style="background-color: #{{ page.colors[i] }}">
-          <input type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>{{ i }}
-        </td>
+      <td style="background-color: #{{ page.colors[i] }}">
+        <input type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>{{ i }}
+      </td>
       {%- endfor -%}
     </tr>
     <tr>
       <td>Foreground: </td>
       {% for i in (0..15) %}
-        <td style="background-color: Black; color: #{{ page.colors[i] }}">
-          <input type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
-        </td>
+      <td style="background-color: Black; color: #{{ page.colors[i] }}">
+        <input type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
+      </td>
       {% endfor %}
     </tr>
   </table>
