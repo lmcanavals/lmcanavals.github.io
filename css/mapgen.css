@@ -1,0 +1,107 @@
+.tr {
+  display: table-row;
+}
+.tc {
+  display: table-cell;
+  width: 640px;
+}
+.ctc {
+  display: table-cell;
+  width: 80px;
+}
+.bg0 {
+  background-color: Black;
+}
+.bg1 {
+  background-color: Maroon;
+}
+.bg2 {
+  background-color: Green;
+}
+.bg3 {
+  background-color: Olive;
+}
+.bg4 {
+  background-color: Navy;
+}
+.bg5 {
+  background-color: Purple;
+}
+.bg6 {
+  background-color: Teal;
+}
+.bg7 {
+  background-color: Silver;
+}
+.bg8 {
+  background-color: Gray;
+}
+.bg9 {
+  background-color: Red;
+}
+.bg10 {
+  background-color: Lime;
+}
+.bg11 {
+  background-color: Yellow;
+}
+.bg12 {
+  background-color: Blue;
+}
+.bg13 {
+  background-color: Fuchsia;
+}
+.bg14 {
+  background-color: Aqua;
+}
+.bg15 {
+  background-color: White;
+}
+.fg0 {
+  color: Black;
+}
+.fg1 {
+  color: Maroon;
+}
+.fg2 {
+  color: Green;
+}
+.fg3 {
+  color: Olive;
+}
+.fg4 {
+  color: Navy;
+}
+.fg5 {
+  color: Purple;
+}
+.fg6 {
+  color: Teal;
+}
+.fg7 {
+  color: Silver;
+}
+.fg8 {
+  color: Gray;
+}
+.fg9 {
+  color: Red;
+}
+.fg10 {
+  color: Lime;
+}
+.fg11 {
+  color: Yellow;
+}
+.fg12 {
+  color: Blue;
+}
+.fg13 {
+  color: Fuchsia;
+}
+.fg14 {
+  color: Aqua;
+}
+.fg15 {
+  color: White;
+}
