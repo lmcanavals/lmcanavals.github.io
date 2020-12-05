@@ -2,26 +2,26 @@
 layout: default
 title: Map generator
 colors:
-  - 000
-  - 800
-  - 080
-  - 880
-  - 008
-  - a0a
-  - 055
-  - aaa
-  - 555
-  - f00
-  - 0f0
-  - ff0
-  - 00f
-  - f0f
-  - 0aa
-  - fff
+  - Black
+  - Maroon
+  - Green
+  - Olive
+  - Navy
+  - Purple
+  - Teal
+  - Silver
+  - Gray
+  - Red
+  - Lime
+  - Yellow
+  - Blue
+  - Fuchsia
+  - Aqua
+  - White
 ---
 
 <h2>Sort of a text mode game map generator</h2>
-<div style="width: 640px">
+<div style="width: 640px: float: left;">
   <label for="rows">Rows: </label><input type="number" id="rows" value="22" min="10" max="24">
   <label for="cols">Columns: </label><input type="number" id="cols" value="60" min="20" max="80">
   <button id="nuevo">Nuevo!</button>
@@ -31,7 +31,7 @@ colors:
     </tr>
     <tr>
 {%- for i in (0..7) -%}
-      <td style="background-color: Black; color: #{{ page.colors[i] }}">
+      <td style="background-color: Black; color: {{ page.colors[i] }}">
         <label for="fg{{ i }}">
           <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
         </label>
@@ -40,7 +40,7 @@ colors:
     </tr>
     <tr>
 {%- for i in (8..15) -%}
-      <td style="background-color: Black; color: #{{ page.colors[i] }}">
+      <td style="background-color: Black; color: {{ page.colors[i] }}">
         <label for="fg{{ i }}">
           <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}">{{ i }}
         </label>
@@ -52,7 +52,7 @@ colors:
     </tr>
     <tr>
 {%- for i in (0..7) -%}
-      <td style="background-color: #{{ page.colors[i] }}">
+      <td style="background-color: {{ page.colors[i] }}">
         <label for="bg{{ i }}">
           <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>{{ i }}
         </label>
@@ -61,7 +61,7 @@ colors:
     </tr>
     <tr>
 {%- for i in (8..15) -%}
-      <td style="background-color: #{{ page.colors[i] }}">
+      <td style="background-color: {{ page.colors[i] }}">
         <label for="bg{{ i }}">
           <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}">Test
         </label>
