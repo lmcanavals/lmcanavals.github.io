@@ -12,13 +12,13 @@ custom_css: mapgen
   <div class="box1">
 {%- for i in (0..15) -%}
     <div class="fg{{ i }} box2">
-      <label for="fg{{ i }}">
+      <label for="fg fg{{ i }}">
         <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
       </label>
     </div>
 {%- endfor -%}
 {%- for i in (0..15) -%}
-    <div class="bg{{ i }} box2">
+    <div class="bg bg{{ i }} box2">
       <label for="bg{{ i }}">
         <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>
       </label>
