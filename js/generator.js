@@ -48,13 +48,15 @@ const foo = !(() => {
     let cad1 = [rows, ' ', cols, '\n'];
     for (i = 0; i < rows; ++i) {
       for (j = 0; j < cols; ++j) {
-        cad1.push(('00' + (mat[j][i] >> 8).toString(16)).substr(-3));
+        cad1.push('' + (mat[j][i] >> 8).toString(16));
       }
+      cad1.push('\n');
       for (j = 0; j < cols; ++j) {
-        cad1.push(('00' + ((mat[j][i] & 0x0f0) >> 4).toString(16)).substr(-3));
+        cad1.push('' + ((mat[j][i] & 0x0f0) >> 4).toString(16));
       }
+      cad1.push('\n');
       for (j = 0; j < cols; ++j) {
-        cad1.push(('00' + (mat[j][i] & 0x00f).toString(16)).substr(-3));
+        cad1.push('' + (mat[j][i] & 0x00f).toString(16));
       }
       cad1.push('\n');
     }
