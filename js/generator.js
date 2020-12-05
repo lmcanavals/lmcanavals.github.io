@@ -59,7 +59,7 @@ const foo = !(() => {
       }
       cad1.push('\n');
     }
-    map.value = cad1.join("");
+    map.innerHTML = cad1.join("");
 
     let cad2 = [`#include "juego.h"
 
@@ -83,6 +83,7 @@ int px;
 int py;
 
 void padPrint(int x, int y, unsigned char glyph) {
+    frommapcolor(m[y][x]);
     Console::SetCursorPosition(px + x, py + y);
     cout << glyph;
 }
@@ -94,7 +95,6 @@ void dibujarMapa(int** m, int rows, int cols) {
         for (int j = 0; j < cols; ++j) {
             int obj = objeto(m[i][j]);
             if (obj != VACIO) {
-                frommapcolor(m[i][j]);
                 padPrint(j, i, glyphs[obj]);
             }
         }
@@ -207,6 +207,7 @@ void dibujarMapa(int** m, int rows, int cols) {
           bg = parseInt(getRadioVal('bg')),
           code = parseInt(getRadioVal('code')),
           thing = (code << 8) + (bg << 4) + fg;
+    console.log(fg, bg, code, thing)
     mat[x][y] = mat[x][y] == thing ? 0x000 : thing;
     drawmat();
   };
