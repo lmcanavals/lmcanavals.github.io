@@ -100,7 +100,7 @@ void dibujarMapa(int** m, int rows, int cols) {
         }
     }
 }`);
-    cpp.value = cad2.join("");
+    cpp.innerHTML = cad2.join("");
   }
 
   function pintaXY(x, y) {
