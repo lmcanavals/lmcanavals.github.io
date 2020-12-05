@@ -43,58 +43,42 @@ const foo = !(() => {
     'ð', 'Ð', 'Ê', 'Ë', 'È', 'ı', 'Í', 'Î', 'Ï', '┘', '┌', '█', '▄', '¦', 'Ì', '▀',
     'Ó', 'ß', 'Ô', 'Ò', 'õ', '↔', 'µ', 'þ', 'Þ', 'Ú', 'Û', 'Ù', 'ý', 'Ý', '¯', '´',
     '•', '±', '‗', '¾', '¶', '§', '÷', '¸', '°', '¨', '·', '¹', '³', '²', '■', ' ']
+  
+  const colors = ["#000", "#800", "#080", "#880", "#008", "#a0a", "#055", "#aaa",
+                  "#555", "#f00", "#0f0", "#ff0", "#00f", "#f0f", "#0aa", "#fff"];
 
   function mcolor(color) {
-    switch (color) {
-      case 0x000: case 0x000: return '#000';
-      case 0x001: case 0x010: return '#800';
-      case 0x002: case 0x020: return '#080';
-      case 0x003: case 0x030: return '#880';
-      case 0x004: case 0x040: return '#008';
-      case 0x005: case 0x050: return '#a0a';
-      case 0x006: case 0x060: return '#055';
-      case 0x007: case 0x070: return '#aaa';
-      case 0x008: case 0x080: return '#555';
-      case 0x009: case 0x090: return '#f00';
-      case 0x00a: case 0x0a0: return '#0f0';
-      case 0x00b: case 0x0b0: return '#ff0';
-      case 0x00c: case 0x0c0: return '#00f';
-      case 0x00d: case 0x0d0: return '#f0f';
-      case 0x00e: case 0x0e0: return '#0aa';
-      case 0x00f: case 0x0f0: return '#fff';
-    }
+    return colors[(color & 0x00f) == 0? (color >> 8) : color];
   }
 
   function writeMat() {
-    let cad = rows + ' ' + cols + '\n';
+    let cad1 = [rows, ' ', cols, '\n'];
     for (i = 0; i < rows; ++i) {
       for (j = 0; j < cols; ++j) {
-        cad += (j === 0? '': ' ') + '0x' + ('00' + mat[j][i].toString(16)).substr(-3);
+        cad1.push(('00' + mat[j][i].toString(16)).substr(-3));
       }
-      cad += '\n';
+      cad1.push('\n');
     }
-    map.value = cad;
+    map.value = cad1.join("");
 
-    cad = `#include "juego.h"
+    let cad2 = [`#include "juego.h"
 
 // Caracteres!
-const unsigned char glyphs[16] = { `
+const unsigned char glyphs[16] = { `]
 
     for (i = 0; i < 16; ++i) {
-      cad += (i === 0? '': ', ') +
-        (names[i].value.trim() !== ''? codes[i].value: 0);
-
+      cad2.push((i === 0? '': ', '), (names[i].value.trim() !== ''? codes[i].value: 0));
     }
-    cad += ` };
+    cad2.push(` };
 
 // Constantes de tipo de elemento!
-`
+`);
     for (i = 0; i < 16; ++i) {
       if (names[i].value.trim() !== '') {
-        cad += `#define ${names[i].value.toUpperCase()}\t${i}\n`;
+        cad.push(`#define ${names[i].value.toUpperCase()}\t${i}\n`);
       }
     }
-    cad += `
+    cad.push(`
 int px;
 int py;
 
@@ -104,7 +88,6 @@ void padPrint(int x, int y, unsigned char glyph) {
 }
 
 void dibujarMapa(int** m, int rows, int cols) {
-    Console::Clear();
     px = 40 - cols / 2;
     py = 12 - rows / 2;
     for (int i = 0; i < rows; ++i) {
@@ -116,21 +99,17 @@ void dibujarMapa(int** m, int rows, int cols) {
             }
         }
     }
-}
-`
-    cpp.value = cad;
+}`);
+    cpp.value = cad2.join("");
   }
 
   function pintaXY(x, y) {
-    const fg = mat[x][y] & 0x00f,
-          bg = mat[x][y] & 0x0f0,
-          code = (mat[x][y] & 0xf00) >> 8,
-          chr = parseInt(codes[code].value);
+    const chr = parseInt(codes[(mat[x][y] & 0xf00) >> 8].value);
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
-    ctx.fillStyle = mcolor(bg);
+    ctx.fillStyle = mcolor(mat[x][y] & 0x0f0);
     ctx.fill();
-    ctx.fillStyle = mcolor(fg);
+    ctx.fillStyle = mcolor(mat[x][y] & 0x00f);
     ctx.font = `${Math.floor(by*0.75)}px Consolas, monospace`;
     ctx.fillText(mchar[chr], (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
   }
