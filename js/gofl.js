@@ -1,23 +1,25 @@
 const foo = !(() => {
     // Useful constants.
-    const BOX_SIDE = 5;
-    const DELAY = 250;
-    const ZERO = 0;
-    const ONE = 1;
-    const RADIO = BOX_SIDE >> 1;
+    const BOX_SIDE = 8;
+    const DELAY = 100;
+    const RADIUS = BOX_SIDE >> 1;
     const RAD_START = 0;
     const RAD_END = 2 * Math.PI;
-    const FILL_COLOR = "PowderBlue";
-    const STROKE_COLOR = "LightSteelBlue";
+    const FILL_COLOR = "LightSlateGray";
+    const STROKE_COLOR = "SlateGray";
 
     // Canvas info.
-    const canvas = document.getElementById('cnvs');
-    const cols = canvas.width / BOX_SIDE;
-    const rows = canvas.height / BOX_SIDE;
+    const here = document.getElementById('here');
+    const canvas = document.createElement('canvas');
+    canvas.width = here.width;
+    canvas.height = Math.floor(window.innerHeight * .6);
+    here.appendChild(canvas);
+    const cols = Math.floor(canvas.width / BOX_SIDE);
+    const rows = Math.floor(canvas.height / BOX_SIDE);
     const context = canvas.getContext('2d');
 
     // Auxiliar variables.
-    let running = false;
+    let running = true;
     let intervalId;
 
     // Two dimensional array to hold the cells.
@@ -27,7 +29,7 @@ const foo = !(() => {
         cells[i] = new Int8Array(cols);
         prevGen[i] = new Int8Array(cols);
         for (let j = 0; j < cols; ++j) {
-            cells[i][j] = Math.floor(Math.random() * 100) > 80? ONE: ZERO;
+            cells[i][j] = Math.floor(Math.random() * 100) > 80? 1: 0;
         }
     }
 
@@ -39,11 +41,11 @@ const foo = !(() => {
         context.strokeStyle = STROKE_COLOR;
         for(let i = 0; i < rows; ++i) {
             for(let j = 0; j < cols; ++j) {
-                if(cells[i][j] == ONE) {
+                if(cells[i][j] == 1) {
                     context.beginPath();
-                    context.arc(j * BOX_SIDE + RADIO,
-                                i * BOX_SIDE + RADIO,
-                                RADIO, RAD_START, RAD_END);
+                    context.arc(j * BOX_SIDE + RADIUS,
+                                i * BOX_SIDE + RADIUS,
+                                RADIUS, RAD_START, RAD_END);
                     context.fill();
                     context.stroke();
                 }
@@ -76,10 +78,10 @@ const foo = !(() => {
         for(let i = 0; i < rows; ++i) {
             for(let j = 0; j < cols; ++j) {
                 let count = countNeighbours(i, j);
-                let val = ZERO;
+                let val = 0;
                 // optimized version of the 3 rules of game of life.
                 if (count == 3 || (prevGen[i][j] == 1 && count == 2)) {
-                    val = ONE;
+                    val = 1;
                 }
                 cells[i][j] = val;
             }
@@ -104,9 +106,9 @@ const foo = !(() => {
     canvas.onclick = e => {
         let [j, i] = [Math.floor((e.x - canvas.offsetLeft) / BOX_SIDE),
                       Math.floor((e.y - canvas.offsetTop) / BOX_SIDE)];
-        cells[i][j] = cells[i][j] == ONE ? ZERO : ONE;
+        cells[i][j] = cells[i][j] == 1 ? 0 : 1;
         drawCells();
     };
 
-    drawCells();
+    intervalId = setInterval(mainLoop, DELAY);
 })();
