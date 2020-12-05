@@ -10,13 +10,15 @@ custom_css: mapgen
 <button id="nuevo">Nuevo!</button>
 <div class="options">
   <div class="box1">
+    <h4>Foreground colors</h4>
 {%- for i in (0..15) -%}
-    <div class="fg{{ i }} box2">
-      <label for="fg fg{{ i }}">
-        <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
+    <div class="fg fg{{ i }} box2">
+      <label for="fg{{ i }}">
+        <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}> {{ i }}
       </label>
     </div>
 {%- endfor -%}
+    <h4>Background colors</h4>
 {%- for i in (0..15) -%}
     <div class="bg bg{{ i }} box2">
       <label for="bg{{ i }}">
@@ -30,7 +32,7 @@ custom_css: mapgen
     <label for="code{{ i }}" class="opt">
       <input type="radio" id="code{{ i }}" name="code" value=""{%- if i == 0 -%} checked{%- endif -%}>
       <input type="number" id="char{{ i }}" min="1" max="255"{%- if i == 0 -%} value="0" readonly{%- endif -%}>
-      <input type="text" id="name{{ i }}" style="width: 60px;">
+      <input type="text" id="name{{ i }}">
     </label>
 {%- endfor -%}
   </div>
