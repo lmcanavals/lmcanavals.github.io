@@ -11,7 +11,7 @@ const foo = !(() => {
     // Canvas info.
     const here = document.getElementById('here');
     const canvas = document.createElement('canvas');
-    canvas.width = here.width;
+    canvas.width = here.offsetWidth;
     canvas.height = Math.floor(window.innerHeight * .6);
     here.appendChild(canvas);
     const cols = Math.floor(canvas.width / BOX_SIDE);
