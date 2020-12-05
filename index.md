@@ -4,6 +4,5 @@ title: index
 ---
 
 Press `P` to start or pause.
-
-<canvas id="cnvs" width="1280" height="780"></canvas>
+<div id="here"></div>
 <script src="/js/gofl.js"></script>
