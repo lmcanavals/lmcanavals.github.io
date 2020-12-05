@@ -25,6 +25,12 @@ const foo = !(() => {
     codes[i] = document.getElementById('char' + i);
     names[i] = document.getElementById('name' + i);
   }
+  names[0].value = 'empty';   codes[0].value = '0';
+  names[1].value = 'hero';    codes[1].value = '2';
+  names[2].value = 'enemy';   codes[2].value = '15';
+  names[3].value = 'life';    codes[3].value = '3';
+  names[4].value = 'bullet';  codes[4].value = '7';
+  names[6].value = 'bullet';  codes[6].value = '219';
 
   const mchar = [
     ' ', '☺', '☻', '♥', '♦', '♣', '♠', '•', '◘', '○', '◙', '♂', '♀', '♪', '♫', '☼',
@@ -39,7 +45,7 @@ const foo = !(() => {
     'É', 'æ', 'Æ', 'ô', 'ö', 'ò', 'û', 'ù', 'ÿ', 'Ö', 'Ü', 'ø', '£', 'Ø', '×', 'ƒ',
     'á', 'í', 'ó', 'ú', 'ñ', 'Ñ', 'ª', 'º', '¿', '®', '¬', '½', '¼', '¡', '«', '»',
     '░', '▒', '▓', '│', '┤', 'Á', 'Â', 'À', '©', '╣', '║', '╗', '╝', '¢', '¥', '┐',
-    '└', '┴', '┬', '├', '─', '┼', 'ã', 'Ã', '╚', '╔', '╩', '╦', '╠', '═', '╬', '¤',
+    '└', '┴', '┬', '├', '─', '┼', 'ã', 'Ã', '╚', '╔', '╩', '╦', '╠', '═', '╬', '╧',
     'ð', 'Ð', 'Ê', 'Ë', 'È', 'ı', 'Í', 'Î', 'Ï', '┘', '┌', '█', '▄', '¦', 'Ì', '▀',
     'Ó', 'ß', 'Ô', 'Ò', 'õ', '↔', 'µ', 'þ', 'Þ', 'Ú', 'Û', 'Ù', 'ý', 'Ý', '¯', '´',
     '•', '±', '‗', '¾', '¶', '§', '÷', '¸', '°', '¨', '·', '¹', '³', '²', '■', ' ']
@@ -55,7 +61,13 @@ const foo = !(() => {
     let cad1 = [rows, ' ', cols, '\n'];
     for (i = 0; i < rows; ++i) {
       for (j = 0; j < cols; ++j) {
-        cad1.push(('00' + mat[j][i].toString(16)).substr(-3));
+        cad1.push(('00' + (mat[j][i] >> 8).toString(16)).substr(-3));
+      }
+      for (j = 0; j < cols; ++j) {
+        cad1.push(('00' + ((mat[j][i] & 0x0f0) >> 4).toString(16)).substr(-3));
+      }
+      for (j = 0; j < cols; ++j) {
+        cad1.push(('00' + (mat[j][i] & 0x00f).toString(16)).substr(-3));
       }
       cad1.push('\n');
     }
@@ -161,14 +173,8 @@ void dibujarMapa(int** m, int rows, int cols) {
   }
 
   function getRadioVal(nom) {
-    const radios = document.getElementsByName(nom);
-
-    for (i = 0, length = radios.length; i < length; ++i) {
-        if (radios[i].checked) {
-            return radios[i].value;
-        }
-    }
-    return 0;
+    const temp = document.querySelector(`input[name=${nom}]:checked`)
+    return temp? parseInt(temp.value): 0;
   }
 
   function init(r, c) {
@@ -203,11 +209,10 @@ void dibujarMapa(int** m, int rows, int cols) {
           y = Math.floor((e.clientY - offy) / by) - offsety;
     if (x < 0 || x >= cols || y < 0 || y >= rows) return;
 
-    const fg = parseInt(getRadioVal('fg')),
-          bg = parseInt(getRadioVal('bg')),
-          code = parseInt(getRadioVal('code')),
+    const fg = getRadioVal('fg'),
+          bg = getRadioVal('bg'),
+          code = getRadioVal('code'),
           thing = (code << 8) + (bg << 4) + fg;
-    console.log(fg, bg, code, thing)
     mat[x][y] = mat[x][y] == thing ? 0x000 : thing;
     drawmat();
   };
