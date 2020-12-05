@@ -10,10 +10,13 @@
   float: left;
   width: 320px;
 }
-.clearfix::after {
+.options::after {
   content: "";
   clear: both;
   display: block;
+}
+.bg {
+  color: Silver;
 }
 .bg0 {
   background-color: Black;
@@ -62,6 +65,9 @@
 }
 .bg15 {
   background-color: White;
+}
+.fg {
+  background-color: Black;
 }
 .fg0 {
   color: Black;
