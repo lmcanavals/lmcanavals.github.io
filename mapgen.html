@@ -27,30 +27,49 @@ colors:
   <button id="nuevo">Nuevo!</button>
 </div>
   
-  {%- for i in (0..15) -%}
-  <label for="code{{ i }}">
-    <input type="radio" id="code{{ i }}" name="code" value=""{%- if i == 0 -%} checked{%- endif -%}>
-    <input type="number" id="char{{ i }}" {%- if i == 0 -%}value="0" readonly{%- else -%} min="1" max="255"{%- endif -%}>
-    <input type="text" id="name{{ i }}" style="width: 30px;">
-  </label>
-  {%- endfor -%}
-
+{%- for i in (0..15) -%}
+<label for="code{{ i }}" style="width: 160px;">
+  <input type="radio" id="code{{ i }}" name="code" value=""{%- if i == 0 -%} checked{%- endif -%}>
+  <input type="number" id="char{{ i }}" {%- if i == 0 -%}value="0" readonly{%- else -%} min="1" max="255"{%- endif -%}>
+  <input type="text" id="name{{ i }}" style="width: 30px;">
+</label>
+{%- endfor -%}
 <table>
   <tr>
-    <td>Background: </td>
-    {%- for i in (0..15) -%}
-    <td style="background-color: #{{ page.colors[i] }}">
-      <input type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>{{ i }}
-    </td>
-    {%- endfor -%}
+    <td cols="8">Background color</td>
+    <td cols="8">Foreground color</td>
   </tr>
   <tr>
-    <td>Foreground: </td>
-    {% for i in (0..15) %}
-    <td style="background-color: Black; color: #{{ page.colors[i] }}">
-      <input type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
+{%- for i in (0..7) -%}
+    <td style="background-color: #{{ page.colors[i] }}">
+      <label for="bg{{ i }}">
+        <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>{{ i }}
+      </label>
     </td>
-    {% endfor %}
+{%- endfor -%}
+{%- for i in (0..7) -%}
+    <td style="background-color: Black; color: #{{ page.colors[i] }}">
+      <label for="fg{{ i }}">
+        <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}>{{ i }}
+      </label>
+    </td>
+{%- endfor -%}
+  </tr>
+  <tr>
+{%- for i in (8--15) -%}
+    <td style="background-color: #{{ page.colors[i] }}">
+      <label for="bg{{ i }}">
+        <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}">{{ i }}
+      </label>
+    </td>
+{%- endfor -%}
+{%- for i in (8..15) -%}
+    <td style="background-color: Black; color: #{{ page.colors[i] }}">
+      <label for="fg{{ i }}">
+        <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}">{{ i }}
+      </label>
+    </td>
+{%- endfor -%}
   </tr>
 </table>
 
