@@ -1,13 +1,19 @@
-.tr {
-  display: table-row;
-}
-.tc {
-  display: table-cell;
+.box1 {
+  float: left;
   width: 640px;
 }
-.ctc {
-  display: table-cell;
+.box2 {
+  float: left;
   width: 80px;
+}
+.opt {
+  float: left;
+  width: 320px;
+}
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: block;
 }
 .bg0 {
   background-color: Black;
