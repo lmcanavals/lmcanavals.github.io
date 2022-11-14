@@ -27,12 +27,12 @@ const foo = !(() => {
     chars[i] = document.getElementById('char' + i);
   }
   names[0].value = 'empty';  chars[0].value = '0';
-  names[1].value = 'vwall';  chars[1].value = '177';
-  names[2].value = 'hwall';  chars[2].value = '177';
-  names[3].value = 'corner'; chars[3].value = '177';
+  names[1].value = 'vwall';  chars[1].value = '179';
+  names[2].value = 'hwall';  chars[2].value = '205';
+  names[3].value = 'corner'; chars[3].value = '216';
   names[4].value = 'hero';   chars[4].value = '2';
-  names[5].value = 'enemy';  chars[5].value = '3';
-  names[6].value = 'oneup';  chars[6].value = '4';
+  names[5].value = 'enemy';  chars[5].value = '1';
+  names[6].value = 'oneup';  chars[6].value = '3';
 
   const mchar = [" ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*=,-./0123456789:;<=>?",
                  "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂",
@@ -136,13 +136,14 @@ int main() {
   }
 
   function pintaXY(x, y) {
+    const ch = parseInt(chars[(mat[x][y] & 0xf00) >> 8].value);
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
     ctx.fillStyle = mcolor(mat[x][y] & 0x0f0);
     ctx.fill();
     ctx.fillStyle = mcolor(mat[x][y] & 0x00f);
     ctx.font = `${Math.floor(by*0.75)}px Consolas, monospace`;
-    ctx.fillText(mchar[(mat[x][y] & 0xf00) >> 8], (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
+    ctx.fillText(mchar[ch], (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
   }
 
   function drawGrid() {
