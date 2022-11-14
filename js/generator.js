@@ -248,16 +248,16 @@ int main() {
   canvas.addEventListener("mousedown", (e) => {
     clicked = true;
     update(e);
-  };
+  });
   canvas.addEventListener("mousemove", (e) => {
     if (clicked) update(e);
-  }
+  });
   canvas.addEventListener("mouseup", (e) => {
     clicked = false;
-  }
+  });
   canvas.addEventListener("mouseleave", (e) => {
     clicked = false;
-  }
+  });
 
   init(22, 70);
 
