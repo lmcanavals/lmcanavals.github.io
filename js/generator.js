@@ -254,9 +254,13 @@ int main() {
   });
   canvas.addEventListener("mouseup", (e) => {
     clicked = false;
+    oldX = -1;
+    oldY = -1;
   });
   canvas.addEventListener("mouseleave", (e) => {
     clicked = false;
+    oldX = -1;
+    oldY = -1;
   });
 
   init(22, 70);
