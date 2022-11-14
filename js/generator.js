@@ -48,51 +48,81 @@ const foo = !(() => {
     let cad1 = [rows, ' ', cols, '\n'];
     for (i = 0; i < rows; ++i) {
       for (j = 0; j < cols; ++j) {
-        cad1.push(`0x${('0000' + mat[j][i].toString(16)).substr(-4)}`);
+        cad1.push(`0x${('0000' + mat[j][i].toString(16)).substr(-4)} `);
       }
       cad1.push('\n');
     }
     map.innerHTML = cad1.join("");
 
-    let cad2 = [`#include "juego.h"
+    let cad2 = [`#include "game.h"
+
+using namespace std;
 
 // Caracteres!
-const unsigned char glyphs[16] = { `]
+string glyphs[] = { `]
 
-    for (i = 0; i < 16; ++i) {
-      cad2.push((i === 0? '': ', '), (names[i].value.trim() !== ''? codes[i].value: 0));
+    for (i = 0; i < 16 && names[i].value.trim() !== ''; ++i) {
+      cad2.push((i === 0? '"': ', "'), mchar(parseInt(codes[i].value)), '"');
     }
     cad2.push(` };
 
 // Constantes de tipo de elemento!
 `);
-    for (i = 0; i < 16; ++i) {
-      if (names[i].value.trim() !== '') {
+    for (i = 0; i < 16 && names[i].value.trim() !== ''; ++i) {
         cad2.push(`#define ${names[i].value.toUpperCase()}\t${i}\n`);
-      }
     }
     cad2.push(`
-int px;
-int py;
-
-void padPrint(int x, int y, unsigned char glyph) {
-    frommapcolor(m[y][x]);
-    Console::SetCursorPosition(px + x, py + y);
-    cout << glyph;
+void loadStuff(string fname, Map*& map, ConsoleInfo*& ci) {
+        ci = new ConsoleInfo;
+        getConsoleInfo(ci);
+        map = loadMap(fname);
+        int marginv = ci->maxRows - map->rows;
+        int marginh = ci->maxColumns - map->cols;
+        if (marginv < 0 || marginh < 0) {
+                map = nullptr; // console too small for labyrinth, try making it bigger
+        } else {
+                int top = marginv / 2;
+                int left = marginh / 2;
+                int bottom = marginv - top;
+                int right = marginh - left;
+                getConsoleInfo(ci, top, right, bottom, left);
+        }
 }
 
-void dibujarMapa(int** m, int rows, int cols) {
-    px = 40 - cols / 2;
-    py = 12 - rows / 2;
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            int obj = objeto(m[i][j]);
-            if (obj != VACIO) {
-                padPrint(j, i, glyphs[obj]);
-            }
+void drawMap(Map* map, ConsoleInfo* ci) {
+        for (int i = 0; i < map->rows; ++i) {
+                gotoxy(ci->left, ci->top + i);
+                for (int j = 0; j < map->cols; ++j) {
+                        if (map->cells[i][j].glyph == ${names[0].value.toUpperCase()}) {
+                                cout << " ";
+                        } else {
+                                color(map->cells[i][j].fcolor, map->cells[i][j].bcolor);
+                                cout << glyphs[map->cells[i][j].glyph];
+                                clearColor();
+                        }
+                }
         }
-    }
-}`);
+}
+
+int main() {
+        ConsoleInfo* ci;
+        Map* map;
+
+        loadStuff("lab.awesome", map, ci);
+        if (map == nullptr) {
+                cout << "Terminal too small for this map\n";
+                return -1;
+        }
+
+        clear();
+        drawMap(map, ci);
+        cin.get();
+        clear();
+
+        delete ci;
+        destroyMap(map);
+}
+`);
     cpp.innerHTML = cad2.join("");
   }
 
