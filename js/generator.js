@@ -13,7 +13,8 @@ const foo = !(() => {
         mat;
 
 // Control handlers
-  let   names = Array(16);
+  let   chars = Array(16),
+        names = Array(16);
 
   const canvas  = document.getElementById('cnvs'),
         ctx     = canvas.getContext('2d'),
@@ -24,12 +25,13 @@ const foo = !(() => {
   for (i = 0; i < 16; ++i) {
     names[i] = document.getElementById('name' + i);
   }
-  names[0].value = 'empty';
-  names[1].value = 'vwall';
-  names[2].value = 'hwall';
-  names[3].value = 'corner';
-  names[4].value = 'hero';
-  names[6].value = 'enemy';
+  names[0].value = 'empty';  chars[0].value = '0';
+  names[1].value = 'vwall';  chars[1].value = '177';
+  names[2].value = 'hwall';  chars[2].value = '177';
+  names[3].value = 'corner'; chars[3].value = '177';
+  names[4].value = 'hero';   chars[4].value = '2';
+  names[6].value = 'enemy';  chars[6].value = '3';
+  names[7].value = 'oneup';  chars[6].value = '4';
 
   const mchar = [" ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*=,-./0123456789:;<=>?",
                  "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂",
@@ -38,11 +40,7 @@ const foo = !(() => {
   
   const cadg = [];
   for (let i = 0; i < 256; ++i) {
-    cadg.push(`<div class="box2">
-      <label for="glyph${i}">
-        <input id="glyph${i}" type="radio" name="glyph" value="${i}"${ i == 64? " checked": ""}> ${mchar[i]}
-      </label>
-    </div>`)
+    cadg.push(`<div class="box2">${mchar[i]}: ${i}</div>`)
   }
   gspan.innerHTML = cadg.join("");
   
@@ -71,7 +69,7 @@ using namespace std;
 string glyphs[] = { `]
 
     for (i = 0; i < 16 && names[i].value.trim() !== ''; ++i) {
-      cad2.push((i === 0? '"': ', "'), mchar[getRadioVal("glyph")], '"');
+      cad2.push((i === 0? '"': ', "'), mchar[parseInt(chars[i].value)], '"');
     }
     cad2.push(` };
 
@@ -136,7 +134,7 @@ int main() {
   }
 
   function pintaXY(x, y) {
-    const chr = getRadioVal("glyph");
+    const chr = parseInt(codes[(mat[x][y] & 0xf00) >> 8].value);
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
     ctx.fillStyle = mcolor(mat[x][y] & 0x0f0);
