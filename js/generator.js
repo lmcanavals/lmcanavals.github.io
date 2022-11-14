@@ -31,8 +31,8 @@ const foo = !(() => {
   names[2].value = 'hwall';  chars[2].value = '177';
   names[3].value = 'corner'; chars[3].value = '177';
   names[4].value = 'hero';   chars[4].value = '2';
-  names[6].value = 'enemy';  chars[6].value = '3';
-  names[7].value = 'oneup';  chars[6].value = '4';
+  names[5].value = 'enemy';  chars[5].value = '3';
+  names[6].value = 'oneup';  chars[6].value = '4';
 
   const mchar = [" ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*=,-./0123456789:;<=>?",
                  "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂",
@@ -41,7 +41,8 @@ const foo = !(() => {
   
   const cadg = [];
   for (let i = 0; i < 256; ++i) {
-    cadg.push(`<div class="box2">${mchar[i]}: ${i}</div>`)
+    let ch = (i === 0 || i === 32) : "&nbsp;" : mchar[i];
+    cadg.push(`<div class="box2">${ch} ${i}</div>`)
   }
   gspan.innerHTML = cadg.join("");
   
@@ -118,7 +119,7 @@ int main() {
 
         loadStuff("lab.awesome", map, ci);
         if (map == nullptr) {
-                cout << "Terminal too small for this map\n";
+                cout << "Terminal too small for this map\\n";
                 return -1;
         }
 
