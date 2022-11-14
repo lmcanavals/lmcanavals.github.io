@@ -10,21 +10,24 @@ const foo = !(() => {
         bx,
         by,
         i, j,
-        mat;
+        mat,
+        clicked,
+        oldX,
+        oldY;
 
 // Control handlers
   let   chars = Array(16),
         names = Array(16);
 
-  const canvas  = document.getElementById('cnvs'),
+  const canvas  = document.querySelector('#cnvs'),
         ctx     = canvas.getContext('2d'),
-        cpp     = document.getElementById('cpp'),
-        map     = document.getElementById('map'),
+        cpp     = document.querySelector('#cpp'),
+        map     = document.querySelector('#map'),
         gspan   = document.querySelector("#glyphs");
 
   for (i = 0; i < 16; ++i) {
-    names[i] = document.getElementById('name' + i);
-    chars[i] = document.getElementById('char' + i);
+    names[i] = document.querySelector('#name' + i);
+    chars[i] = document.querySelector('#char' + i);
   }
   names[0].value = 'empty';  chars[0].value = '0';
   names[1].value = 'vwall';  chars[1].value = '179';
@@ -198,6 +201,9 @@ int main() {
   }
 
   function init(r, c) {
+    clicked = false;
+    oldX = -1;
+    oldY = -1;
     rows = r;
     cols = c;
     offsetx = Math.floor(totalCols / 2 - cols / 2);
@@ -214,29 +220,45 @@ int main() {
   }
 
   // boton
-  document.getElementById('nuevo').onclick = function(e) {
-    rows = parseInt(document.getElementById('rows').value);
-    cols = parseInt(document.getElementById('cols').value);
+  document.querySelector('#nuevo').addEventListener("click", (e) => {
+    rows = parseInt(document.querySelector('#rows').value);
+    cols = parseInt(document.querySelector('#cols').value);
     init(rows, cols);
-  };
+  });
 
   // Eventos de mouse.
-  canvas.onclick = e => {
+  function update(e) {
     const bcr = canvas.getBoundingClientRect(),
           offx = bcr.left,
           offy = bcr.top,
           x = Math.floor((e.clientX - offx) / bx) - offsetx,
           y = Math.floor((e.clientY - offy) / by) - offsety;
     if (x < 0 || x >= cols || y < 0 || y >= rows) return;
-
-    const fg = getRadioVal('fg'),
-          bg = getRadioVal('bg'),
-          code = getRadioVal('code'),
-          thing = (code << 8) + (bg << 4) + fg;
-    mat[x][y] = mat[x][y] == thing ? 0x000 : thing;
-    drawmat();
+    if (x !== oldX or y !== oldY) {
+      oldX = x;
+      oldY = y;
+      const fg = getRadioVal('fg'),
+            bg = getRadioVal('bg'),
+            code = getRadioVal('code'),
+            thing = (code << 8) + (bg << 4) + fg;
+      mat[x][y] = mat[x][y] == thing ? 0x000 : thing;
+      drawmat();
+    }
+  }
+  canvas.addEventListener("mousedown", (e) => {
+    clicked = true;
+    update(e);
   };
+  canvas.addEventListener("mousemove", (e) => {
+    if (clicked) update(e);
+  }
+  canvas.addEventListener("mouseup", (e) => {
+    clicked = false;
+  }
+  canvas.addEventListener("mouseleave", (e) => {
+    clicked = false;
+  }
 
-  init(22, 60);
+  init(22, 70);
 
 })();
