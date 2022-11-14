@@ -24,6 +24,7 @@ const foo = !(() => {
 
   for (i = 0; i < 16; ++i) {
     names[i] = document.getElementById('name' + i);
+    chars[i] = document.getElementById('char' + i);
   }
   names[0].value = 'empty';  chars[0].value = '0';
   names[1].value = 'vwall';  chars[1].value = '177';
