@@ -13,29 +13,38 @@ const foo = !(() => {
         mat;
 
 // Control handlers
-  let   codes = Array(16),
-        names = Array(16);
+  let   names = Array(16);
 
   const canvas  = document.getElementById('cnvs'),
         ctx     = canvas.getContext('2d'),
         cpp     = document.getElementById('cpp'),
-        map     = document.getElementById('map');
+        map     = document.getElementById('map'),
+        gspan   = document.querySelector("#glyphs");
 
   for (i = 0; i < 16; ++i) {
-    codes[i] = document.getElementById('char' + i);
     names[i] = document.getElementById('name' + i);
   }
-  names[0].value = 'empty';   codes[0].value = '0';
-  names[1].value = 'hero';    codes[1].value = '2';
-  names[2].value = 'enemy';   codes[2].value = '15';
-  names[3].value = 'life';    codes[3].value = '3';
-  names[4].value = 'bullet';  codes[4].value = '7';
-  names[6].value = 'block';  codes[6].value = '219';
+  names[0].value = 'empty';
+  names[1].value = 'vwall';
+  names[2].value = 'hwall';
+  names[3].value = 'corner';
+  names[4].value = 'hero';
+  names[6].value = 'enemy';
 
   const mchar = [" ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*=,-./0123456789:;<=>?",
                  "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂",
                  "ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐",
                  "└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■ "].join("");
+  
+  const cadg = [];
+  for (let i = 0; i < 256; ++i) {
+    cadg.push(`<div class="box2">
+      <label for="glyph${i}">
+        <input id="glyph${i}" type="radio" name="glyph" value="${i}"${ i == 64? " checked": ""}> ${mchar[i]}
+      </label>
+    </div>`)
+  }
+  gspan.innerHTML = cadg.join("");
   
   const colors = ["#000", "#800", "#080", "#880", "#008", "#a0a", "#055", "#aaa",
                   "#555", "#f00", "#0f0", "#ff0", "#00f", "#f0f", "#0aa", "#fff"];
@@ -62,7 +71,7 @@ using namespace std;
 string glyphs[] = { `]
 
     for (i = 0; i < 16 && names[i].value.trim() !== ''; ++i) {
-      cad2.push((i === 0? '"': ', "'), mchar(parseInt(codes[i].value)), '"');
+      cad2.push((i === 0? '"': ', "'), mchar[getRadioVal("glyph")], '"');
     }
     cad2.push(` };
 
@@ -127,7 +136,7 @@ int main() {
   }
 
   function pintaXY(x, y) {
-    const chr = parseInt(codes[(mat[x][y] & 0xf00) >> 8].value);
+    const chr = getRadioVal("glyph");
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
     ctx.fillStyle = mcolor(mat[x][y] & 0x0f0);
