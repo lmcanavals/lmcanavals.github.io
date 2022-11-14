@@ -234,7 +234,7 @@ int main() {
           x = Math.floor((e.clientX - offx) / bx) - offsetx,
           y = Math.floor((e.clientY - offy) / by) - offsety;
     if (x < 0 || x >= cols || y < 0 || y >= rows) return;
-    if (x !== oldX or y !== oldY) {
+    if (x !== oldX || y !== oldY) {
       oldX = x;
       oldY = y;
       const fg = getRadioVal('fg'),
