@@ -48,7 +48,7 @@ const foo = !(() => {
     let cad1 = [rows, ' ', cols, '\n'];
     for (i = 0; i < rows; ++i) {
       for (j = 0; j < cols; ++j) {
-        cad1.push(('00' + mat[j][i].toString(16)).substr(-3));
+        cad1.push((`0x${mat[j][i].toString(16)).substr(-3)} `);
       }
       cad1.push('\n');
     }
