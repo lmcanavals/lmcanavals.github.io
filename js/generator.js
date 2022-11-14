@@ -41,7 +41,7 @@ const foo = !(() => {
   
   const cadg = [];
   for (let i = 0; i < 256; ++i) {
-    let ch = (i === 0 || i === 32) : "&nbsp;" : mchar[i];
+    let ch = (i === 0 || i === 32) ? "&nbsp;" : mchar[i];
     cadg.push(`<div class="box2">${ch} ${i}</div>`)
   }
   gspan.innerHTML = cadg.join("");
