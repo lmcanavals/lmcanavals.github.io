@@ -136,14 +136,13 @@ int main() {
   }
 
   function pintaXY(x, y) {
-    const chr = parseInt(codes[(mat[x][y] & 0xf00) >> 8].value);
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
     ctx.fillStyle = mcolor(mat[x][y] & 0x0f0);
     ctx.fill();
     ctx.fillStyle = mcolor(mat[x][y] & 0x00f);
     ctx.font = `${Math.floor(by*0.75)}px Consolas, monospace`;
-    ctx.fillText(mchar[chr], (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
+    ctx.fillText(mchar[(mat[x][y] & 0xf00) >> 8], (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
   }
 
   function drawGrid() {
