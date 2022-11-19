@@ -71,10 +71,10 @@ const foo = !(() => {
 using namespace std;
 
 // Caracteres!
-char glyphs[] = { `]
+char glyphs[] = {`]
 
     for (i = 0; i < 16 && names[i].value.trim() !== ''; ++i) {
-      cad2.push((i === 0? '"': ', '), parseInt(chars[i].value));
+      cad2.push((i === 0? ' ': ', '), parseInt(chars[i].value));
     }
     cad2.push(` };
     
