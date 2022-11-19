@@ -71,13 +71,21 @@ const foo = !(() => {
 using namespace std;
 
 // Caracteres!
-string glyphs[] = { `]
+char glyphs[] = { `]
+
+    for (i = 0; i < 16 && names[i].value.trim() !== ''; ++i) {
+      cad2.push((i === 0? '"': ', '), parseInt(chars[i].value));
+    }
+    cad2.push(` };
+    
+// just in case
+// string glyphs[] = { `);
 
     for (i = 0; i < 16 && names[i].value.trim() !== ''; ++i) {
       cad2.push((i === 0? '"': ', "'), mchar[parseInt(chars[i].value)], '"');
     }
     cad2.push(` };
-
+    
 // Constantes de tipo de elemento!
 `);
     for (i = 0; i < 16 && names[i].value.trim() !== ''; ++i) {
