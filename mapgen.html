@@ -10,10 +10,12 @@ custom_css: mapgen
 <button id="nuevo">Nuevo!</button>
 <div class="options">
   <div class="box1">
-    <h4>Glyphs</h4>
+    <br>
+    <h3>Glyphs</h3>
     <span id="glyphs"></span>
     
-    <h4>Foreground colors</h4>
+    <br>
+    <h3>Foreground colors</h3>
 {%- for i in (0..15) -%}
     <div class="fg fg{{ i }} box2">
       <label for="fg{{ i }}">
@@ -22,7 +24,8 @@ custom_css: mapgen
     </div>
 {%- endfor -%}
     
-    <h4>Background colors</h4>
+    <br>
+    <h3>Background colors</h3>
 {%- for i in (0..15) -%}
     <div class="bg bg{{ i }} box2">
       <label for="bg{{ i }}">
