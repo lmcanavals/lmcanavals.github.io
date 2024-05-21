@@ -1,6 +1,9 @@
 #map {
   font-size: 8pt;
 }
+input[type="text"] {
+  width: 175px;
+}
 .box1 {
   float: left;
   width: 960px;
