@@ -17,8 +17,8 @@ custom_css: mapgen
     <h3>Map elements</h3>
 {%- for i in (0..15) -%}
     <label for="code{{ i }}" class="opt">
-      <input type="radio" id="code{{ i }}" name="code" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>
-      <input type="number" id="char{{ i }}" min="1" max="255"{%- if i == 0 -%} value="0" readonly{%- endif -%}>
+      <input type="radio" id="code{{ i }}" name="code" value="{{ i }}" {%- if i == 0 -%}checked{%- endif -%}>
+      <input type="number" id="char{{ i }}" min="1" max="255" {%- if i == 0 -%} value="0" readonly{%- endif -%}>
       <input type="text" id="name{{ i }}">
     </label>
 {%- endfor -%}
@@ -28,7 +28,7 @@ custom_css: mapgen
 {%- for i in (0..15) -%}
     <div class="fg fg{{ i }} box2">
       <label for="fg{{ i }}">
-        <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}"{%- if i == 7 -%} checked{%- endif -%}> {{ i }}
+        <input id="fg{{ i }}" type="radio" name="fg" value="{{ i }}" {%- if i == 7 -%}checked{%- endif -%}> {{ i }}
       </label>
     </div>
 {%- endfor -%}
@@ -38,7 +38,7 @@ custom_css: mapgen
 {%- for i in (0..15) -%}
     <div class="bg bg{{ i }} box2">
       <label for="bg{{ i }}">
-        <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}> &nbsp;
+        <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}" {%- if i == 0 -%}checked{%- endif -%}> &nbsp;
       </label>
     </div>
 {%- endfor -%}
