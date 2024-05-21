@@ -10,11 +10,20 @@ custom_css: mapgen
 <button id="nuevo">Nuevo!</button>
 <div class="options">
   <div class="box1">
-    <br>
     <h3>Glyphs</h3>
     <span id="glyphs"></span>
-    
-    <br>
+  </div>
+  <div class="box3">
+    <h3>Map elements</h3>
+{%- for i in (0..15) -%}
+    <label for="code{{ i }}" class="opt">
+      <input type="radio" id="code{{ i }}" name="code" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>
+      <input type="number" id="char{{ i }}" min="1" max="255"{%- if i == 0 -%} value="0" readonly{%- endif -%}>
+      <input type="text" id="name{{ i }}">
+    </label>
+{%- endfor -%}
+  </div>
+  <div>
     <h3>Foreground colors</h3>
 {%- for i in (0..15) -%}
     <div class="fg fg{{ i }} box2">
@@ -32,15 +41,6 @@ custom_css: mapgen
         <input id="bg{{ i }}" type="radio" name="bg" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}> &nbsp;
       </label>
     </div>
-{%- endfor -%}
-  </div>
-  <div class="box3">
-{%- for i in (0..15) -%}
-    <label for="code{{ i }}" class="opt">
-      <input type="radio" id="code{{ i }}" name="code" value="{{ i }}"{%- if i == 0 -%} checked{%- endif -%}>
-      <input type="number" id="char{{ i }}" min="1" max="255"{%- if i == 0 -%} value="0" readonly{%- endif -%}>
-      <input type="text" id="name{{ i }}">
-    </label>
 {%- endfor -%}
   </div>
 </div>
