@@ -19,7 +19,7 @@ custom_css: mapgen
     <label for="code{{ i }}" class="opt">
       <input type="radio" id="code{{ i }}" name="code" value="{{ i }}">
       <input type="number" id="char{{ i }}" min="1" max="255">
-      <input type="text" id="name{{ i }}" placeholder="your_element_name">
+      <input type="text" id="name{{ i }}" placeholder="map element {{ i }}">
     </label>
 {%- endfor -%}
   </div>
