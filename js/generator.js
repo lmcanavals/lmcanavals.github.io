@@ -31,18 +31,18 @@
     chars[i] = document.querySelector("#char" + i);
   }
   names[0].value = "empty";
-  chars[0].value = "0";
   names[1].value = "vwall";
-  chars[1].value = "179";
   names[2].value = "hwall";
-  chars[2].value = "205";
   names[3].value = "corner";
-  chars[3].value = "216";
   names[4].value = "hero";
-  chars[4].value = "2";
   names[5].value = "enemy";
-  chars[5].value = "1";
   names[6].value = "oneup";
+  chars[0].value = "0";
+  chars[1].value = "179";
+  chars[2].value = "205";
+  chars[3].value = "216";
+  chars[4].value = "2";
+  chars[5].value = "1";
   chars[6].value = "3";
 
   const mchar = [
@@ -53,6 +53,11 @@
   ].join("");
 
   const cadg = [];
+
+  cadg.push(`<div class="box2"> &nbsp; </div>`);
+  for (let i = 0; i < 16; ++i) {
+    cadg.push(`<div class="box2">${i.toString(16)}</div>`);
+  }
   for (let i = 0; i < 256; ++i) {
     const ch = (i === 0 || i === 32) ? "&nbsp;" : mchar[i];
     const hextxt = `00${i.toString(16)}`;
