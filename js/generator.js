@@ -56,8 +56,15 @@
   for (let i = 0; i < 256; ++i) {
     const ch = (i === 0 || i === 32) ? "&nbsp;" : mchar[i];
     const hextxt = `00${i.toString(16)}`;
+    if (i % 16 == 0) {
+      cadg.push(
+        `<div class="box2">0x${
+          hextxt.substring(hextxt.length - 2, hextxt.length - 1)
+        }_</div>`,
+      );
+    }
     cadg.push(
-      `<div class="box2">${ch}<span class="tooltiptext">${
+      `<div class="box3">${ch}<span class="tooltiptext">${ch} 0x${
         hextxt.substring(hextxt.length - 2)
       } ${i}</span></div>`,
     );

@@ -13,7 +13,7 @@ custom_css: mapgen
     <h3>Glyphs</h3>
     <span id="glyphs"></span>
   </div>
-  <div class="box3">
+  <div class="box4">
     <h3>Map elements</h3>
 {%- for i in (0..15) -%}
     <label for="code{{ i }}" class="opt">

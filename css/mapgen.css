@@ -2,36 +2,39 @@
   font-size: 8pt;
 }
 input[type="text"] {
-  width: 175px;
+  width: 195px;
 }
 .box1 {
   float: left;
-  width: 960px;
+  width: 940px;
 }
 .box2 {
   float: left;
   width: 60px;
 }
-.box2 .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  border: solid orange 1px;
-
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-}
-.box2:hover .tooltiptext {
-  visibility: visible;
-}
 .box3 {
   float: left;
-  width: 320px;
+  width: 55px;
+}
+.box3 .tooltiptext {
+  background-color: black;
+  border-radius: 6px;
+  border: solid orange 1px;
+  color: #fff;
+	font-size: 1.2em;
+  padding: 5px 0;
+  position: absolute;
+  text-align: center;
+  visibility: hidden;
+  width: 120px;
+  z-index: 1;
+}
+.box3:hover .tooltiptext {
+  visibility: visible;
+}
+.box4 {
+  float: left;
+  width: 340px;
 }
 .opt {
   float: left;
