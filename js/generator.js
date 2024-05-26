@@ -56,7 +56,7 @@
 
   cadg.push(`<div class="box2"> &nbsp; </div>`);
   for (let i = 0; i < 16; ++i) {
-    cadg.push(`<div class="box2">${i.toString(16)}</div>`);
+    cadg.push(`<div class="box3">${i.toString(16)}</div>`);
   }
   for (let i = 0; i < 256; ++i) {
     const ch = (i === 0 || i === 32) ? "&nbsp;" : mchar[i];

@@ -6,7 +6,7 @@ input[type="text"] {
 }
 .box1 {
   float: left;
-  width: 940px;
+  width: 620px;
 }
 .box2 {
   float: left;
@@ -14,7 +14,7 @@ input[type="text"] {
 }
 .box3 {
   float: left;
-  width: 55px;
+  width: 35px;
 	text-align: center;
 }
 .box3 .tooltiptext {
@@ -34,11 +34,11 @@ input[type="text"] {
 }
 .box4 {
   float: left;
-  width: 340px;
+  width: 640px;
 }
 .opt {
   float: left;
-  width: 320px;
+  width: 640px;
 }
 .options::after {
   content: "";
