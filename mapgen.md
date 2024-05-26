@@ -9,10 +9,6 @@ custom_css: mapgen
 <label>Columns: <input type="number" id="cols" value="60" min="20" max="80"></label>
 <button id="nuevo">Nuevo!</button>
 <div class="options">
-  <div class="box1">
-    <h3>Glyphs</h3>
-    <span id="glyphs"></span>
-  </div>
   <div class="box4">
     <h3>Map elements</h3>
 {%- for i in (0..15) -%}
@@ -42,6 +38,10 @@ custom_css: mapgen
       </label>
     </div>
 {%- endfor -%}
+  </div>
+  <div class="box1">
+    <h3>Glyphs</h3>
+    <span id="glyphs"></span>
   </div>
 </div>
 <canvas id="cnvs" width="1280" height="768"></canvas>

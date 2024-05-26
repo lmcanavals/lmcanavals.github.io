@@ -1,149 +1,149 @@
 #map {
-  font-size: 8pt;
+	font-size: 8pt;
 }
 input[type="text"] {
-  width: 185px;
+	width: 185px;
 }
 .box1 {
-  float: left;
-  width: 620px;
+	float: left;
+	width: 445px;
 }
 .box2 {
-  float: left;
-  width: 60px;
+	float: left;
+	width: 45px;
 }
 .box3 {
-  float: left;
-  width: 35px;
+	float: left;
+	width: 25px;
 	text-align: center;
 }
 .box3 .tooltiptext {
-  background-color: black;
-  border-radius: 6px;
-  border: solid orange 1px;
-  color: #fff;
+	background-color: black;
+	border-radius: 6px;
+	border: solid orange 1px;
+	color: #fff;
 	font-size: 1.2em;
-  padding: 5px 15px;
-  position: absolute;
-  text-align: center;
-  visibility: hidden;
-  z-index: 1;
+	padding: 5px 15px;
+	position: absolute;
+	text-align: center;
+	visibility: hidden;
+	z-index: 1;
 }
 .box3:hover .tooltiptext {
-  visibility: visible;
+	visibility: visible;
 }
 .box4 {
-  float: left;
-  width: 640px;
+	float: left;
+	width: 355px;
+	margin: 0 0 0 30px;
 }
 .opt {
-  float: left;
-  width: 640px;
+	float: left;
 }
 .options::after {
-  content: "";
-  clear: both;
-  display: block;
+	content: "";
+	clear: both;
+	display: block;
 }
 .bg {
-  color: Silver;
+	color: Silver;
 }
 .bg0 {
-  background-color: Black;
+	background-color: Black;
 }
 .bg1 {
-  background-color: Maroon;
+	background-color: Maroon;
 }
 .bg2 {
-  background-color: Green;
+	background-color: Green;
 }
 .bg3 {
-  background-color: Olive;
+	background-color: Olive;
 }
 .bg4 {
-  background-color: Navy;
+	background-color: Navy;
 }
 .bg5 {
-  background-color: Purple;
+	background-color: Purple;
 }
 .bg6 {
-  background-color: Teal;
+	background-color: Teal;
 }
 .bg7 {
-  background-color: Silver;
+	background-color: Silver;
 }
 .bg8 {
-  background-color: Gray;
+	background-color: Gray;
 }
 .bg9 {
-  background-color: Red;
+	background-color: Red;
 }
 .bg10 {
-  background-color: Lime;
+	background-color: Lime;
 }
 .bg11 {
-  background-color: Yellow;
+	background-color: Yellow;
 }
 .bg12 {
-  background-color: Blue;
+	background-color: Blue;
 }
 .bg13 {
-  background-color: Fuchsia;
+	background-color: Fuchsia;
 }
 .bg14 {
-  background-color: Aqua;
+	background-color: Aqua;
 }
 .bg15 {
-  background-color: White;
+	background-color: White;
 }
 .fg {
-  background-color: Black;
+	background-color: Black;
 }
 .fg0 {
-  color: Black;
+	color: Black;
 }
 .fg1 {
-  color: Maroon;
+	color: Maroon;
 }
 .fg2 {
-  color: Green;
+	color: Green;
 }
 .fg3 {
-  color: Olive;
+	color: Olive;
 }
 .fg4 {
-  color: Navy;
+	color: Navy;
 }
 .fg5 {
-  color: Purple;
+	color: Purple;
 }
 .fg6 {
-  color: Teal;
+	color: Teal;
 }
 .fg7 {
-  color: Silver;
+	color: Silver;
 }
 .fg8 {
-  color: Gray;
+	color: Gray;
 }
 .fg9 {
-  color: Red;
+	color: Red;
 }
 .fg10 {
-  color: Lime;
+	color: Lime;
 }
 .fg11 {
-  color: Yellow;
+	color: Yellow;
 }
 .fg12 {
-  color: Blue;
+	color: Blue;
 }
 .fg13 {
-  color: Fuchsia;
+	color: Fuchsia;
 }
 .fg14 {
-  color: Aqua;
+	color: Aqua;
 }
 .fg15 {
-  color: White;
+	color: White;
 }
