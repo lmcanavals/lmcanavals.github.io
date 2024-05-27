@@ -22,14 +22,14 @@
   document.querySelector("#fg7").checked = true;
 
   // Control handlers
-	let numElems;
-  const elems = Array(256);
+  let numElems = 0;
+  const elems = Array(MAX_ELEMENTS);
 
   const canvas = document.querySelector("#cnvs"),
     ctx = canvas.getContext("2d"),
     cpp = document.querySelector("#cpp"),
     map = document.querySelector("#map"),
-		espan = document.querySelector("#elements"),
+    espan = document.querySelector("#elements"),
     gspan = document.querySelector("#glyphs");
 
   const mchar = [
@@ -39,29 +39,41 @@
     "└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■ ",
   ].join("");
 
-	elems[0] = { 'ascii': 0, 'name': 'empty', 'bg': 0, 'fg': 0 };
-	elems[1] = { 'ascii': 1, 'name': 'hero', 'bg': 0, 'fg': 2 };
-	elems[2] = { 'ascii': 219, 'name': 'wall', 'bg': 4, 'fg': 3 };
-	numElems = 3;
+  elems[0] = { "ascii": 0, "name": "empty", "bg": 0, "fg": 0 };
+  elems[1] = { "ascii": 1, "name": "hero", "bg": 0, "fg": 2 };
+  elems[2] = { "ascii": 219, "name": "wall", "bg": 4, "fg": 3 };
+  elems[3] = { "ascii": 3, "name": "oneup", "bg": 0, "fg": 1 };
+  ++numElems;
+  ++numElems;
+  ++numElems;
+  ++numElems;
 
   const cadg = [];
 
-	for (let i = 0; i < numElems; ++i) {
-		cadg.push(`
-						<div>
-							<label for="element${0}" class="opt">
-								<input type="radio" id="element${i}" name="element" value="${i}">
-								${elems[i].ascii == 0?
-										'empty' :
-										elems[i].ascii == 32?
-											'<BS>' :
-											mchar[elems[i].ascii]}
-							</label>
-						</div>`)
-	}
-  espan.innerHTML = cadg.join("");
+  for (let i = 0; i < numElems; ++i) {
+    const ascii = elems[i].ascii;
+    const name = elems[i].name;
+    const bg = elems[i].bg;
+    const fg = elems[i].fg;
+		const div = document.createElement('div')
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+		const text = document.createTextNode(
+      `${ascii == 0 ? "nil" : ascii == 32 ? "' '" : mchar[ascii]} ${name}`,
+    );
+    input.setAttribute("type", "radio");
+    input.setAttribute("id", `element${i}`);
+    input.setAttribute("name", "element");
+    input.setAttribute("value", `${i}`);
+    label.appendChild(input);
+    label.appendChild(text);
+		label.setAttribute("for", `element${i}`)
+		label.setAttribute("class", `fg${fg} bg${bg}`);
+		div.appendChild(label);
+		espan.appendChild(div);
+  }
 
-	cadg.length = 0;
+  cadg.length = 0;
   cadg.push(`<div class="box2 tr"> &nbsp; </div>`);
   for (let i = 0; i < 16; ++i) {
     cadg.push(`<div class="box3 th">${i.toString(16)}</div>`);
@@ -199,7 +211,7 @@ int main() {
   }
 
   function pintaXY(x, y) {
-    const ch = parseInt(chars[(mat[x][y] & 0xf00) >> 8].value);
+    const ch = parseInt(elems[(mat[x][y] & 0xf00) >> 8].ascii);
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
     ctx.fillStyle = mcolor(mat[x][y] & 0x0f0);

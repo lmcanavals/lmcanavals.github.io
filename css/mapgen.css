@@ -10,7 +10,6 @@ label:has(input[type=radio]) {
 }
 /* Change label background when the child element is checked. */
 label:has(input[type=radio]:checked) {
-	font-size: 2em;
 	outline: 2px solid orange;
 }
 input[type=radio] {
@@ -55,12 +54,24 @@ input[type=radio] {
 	flex-wrap: wrap;
 }
 .colors div {
-	width: 50px;
 	margin: auto;
+	width: 50px;
 }
 .color-stuff {
 	float: left;
 	width: 418px;
+}
+.elements {
+	display: flex;
+	gap: 2px;
+	flex-wrap: wrap;
+}
+.elements div {
+	margin: auto;
+}
+.elements div label {
+	height: 30px;
+	padding: 2px 5px;
 }
 .glyphs {
 	float: left;
