@@ -1,8 +1,10 @@
 "use strict";
 
 !(() => {
-  const totalCols = 80,
-    totalRows = 24;
+  // proper constants
+  const MAX_ELEMENTS = 256;
+
+  const totalCols = 80, totalRows = 24;
   let offsetx,
     offsety,
     cols,
@@ -16,34 +18,19 @@
     oldX,
     oldY;
 
+  document.querySelector("#bg0").checked = true;
+  document.querySelector("#fg7").checked = true;
+
   // Control handlers
-  const chars = Array(16),
-    names = Array(16);
+	let numElems;
+  const elems = Array(256);
 
   const canvas = document.querySelector("#cnvs"),
     ctx = canvas.getContext("2d"),
     cpp = document.querySelector("#cpp"),
     map = document.querySelector("#map"),
+		espan = document.querySelector("#elements"),
     gspan = document.querySelector("#glyphs");
-
-  for (i = 0; i < 16; ++i) {
-    names[i] = document.querySelector("#name" + i);
-    chars[i] = document.querySelector("#char" + i);
-  }
-  names[0].value = "empty";
-  names[1].value = "vwall";
-  names[2].value = "hwall";
-  names[3].value = "corner";
-  names[4].value = "hero";
-  names[5].value = "enemy";
-  names[6].value = "oneup";
-  chars[0].value = "0";
-  chars[1].value = "179";
-  chars[2].value = "205";
-  chars[3].value = "216";
-  chars[4].value = "2";
-  chars[5].value = "1";
-  chars[6].value = "3";
 
   const mchar = [
     " ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*=,-./0123456789:;<=>?",
@@ -52,18 +39,39 @@
     "└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■ ",
   ].join("");
 
+	elems[0] = { 'ascii': 0, 'name': 'empty', 'bg': 0, 'fg': 0 };
+	elems[1] = { 'ascii': 1, 'name': 'hero', 'bg': 0, 'fg': 2 };
+	elems[2] = { 'ascii': 219, 'name': 'wall', 'bg': 4, 'fg': 3 };
+	numElems = 3;
+
   const cadg = [];
 
-  cadg.push(`<div class="box2"> &nbsp; </div>`);
+	for (let i = 0; i < numElems; ++i) {
+		cadg.push(`
+						<div>
+							<label for="element${0}" class="opt">
+								<input type="radio" id="element${i}" name="element" value="${i}">
+								${elems[i].ascii == 0?
+										'empty' :
+										elems[i].ascii == 32?
+											'<BS>' :
+											mchar[elems[i].ascii]}
+							</label>
+						</div>`)
+	}
+  espan.innerHTML = cadg.join("");
+
+	cadg.length = 0;
+  cadg.push(`<div class="box2 tr"> &nbsp; </div>`);
   for (let i = 0; i < 16; ++i) {
-    cadg.push(`<div class="box3">${i.toString(16)}</div>`);
+    cadg.push(`<div class="box3 th">${i.toString(16)}</div>`);
   }
   for (let i = 0; i < 256; ++i) {
     const ch = (i === 0 || i === 32) ? "&nbsp;" : mchar[i];
     const hextxt = `00${i.toString(16)}`;
     if (i % 16 == 0) {
       cadg.push(
-        `<div class="box2">0x${
+        `<div class="box2 th">0x${
           hextxt.substring(hextxt.length - 2, hextxt.length - 1)
         }_</div>`,
       );
@@ -116,25 +124,25 @@ using namespace std;
 
 // Caracteres!
 char glyphs[] = {`];
-
+    /*
     for (i = 0; i < 16 && names[i].value.trim() !== ""; ++i) {
       cad2.push(i === 0 ? " " : ", ", parseInt(chars[i].value));
-    }
+    }*/
     cad2.push(` };
     
 // just in case
 // string glyphs[] = { `);
-
+    /*
     for (i = 0; i < 16 && names[i].value.trim() !== ""; ++i) {
       cad2.push(i === 0 ? '"' : ', "', mchar[parseInt(chars[i].value)], '"');
-    }
+    }*/
     cad2.push(` };
     
 // Constantes de tipo de elemento!
 `);
-    for (i = 0; i < 16 && names[i].value.trim() !== ""; ++i) {
+    /*    for (i = 0; i < 16 && names[i].value.trim() !== ""; ++i) {
       cad2.push(`#define ${names[i].value.toUpperCase()}\t${i}\n`);
-    }
+    }*/
     cad2.push(`
 void loadStuff(string fname, Map*& map, ConsoleInfo*& ci) {
         ci = new ConsoleInfo;
@@ -157,9 +165,7 @@ void drawMap(Map* map, ConsoleInfo* ci) {
         for (int i = 0; i < map->rows; ++i) {
                 gotoxy(ci->left, ci->top + i);
                 for (int j = 0; j < map->cols; ++j) {
-                        if (map->cells[i][j].glyph == ${
-      names[0].value.toUpperCase()
-    }) {
+                        if (map->cells[i][j].glyph == EMPTY) {
                                 cout << " ";
                         } else {
                                 color(map->cells[i][j].fcolor, map->cells[i][j].bcolor);
@@ -278,9 +284,9 @@ int main() {
   }
 
   // boton
-  document.querySelector("#nuevo").addEventListener("click", () => {
-    rows = parseInt(document.querySelector("#rows").value);
-    cols = parseInt(document.querySelector("#cols").value);
+  document.querySelector("#new").addEventListener("click", () => {
+    rows = parseInt(document.querySelector("input[name=rows]").value);
+    cols = parseInt(document.querySelector("input[name=cols]").value);
     init(rows, cols);
   });
 

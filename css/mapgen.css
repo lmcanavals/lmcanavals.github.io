@@ -1,16 +1,33 @@
+label {
+	height: 50px;
+	text-align: center;
+}
+/* Target labels that have a radio input as child. */
+label:has(input[type=radio]) {
+	display: grid;
+	flex-direction: row;
+	align-items: center;
+}
+/* Change label background when the child element is checked. */
+label:has(input[type=radio]:checked) {
+	font-size: 2em;
+	outline: 2px solid orange;
+}
+input[type=radio] {
+	position:absolute;
+	opacity: 0;
+}
 #map {
 	font-size: 8pt;
 }
-input[type="text"] {
-	width: 185px;
-}
-.box1 {
-	float: left;
-	width: 445px;
-}
 .box2 {
 	float: left;
-	width: 45px;
+	text-align: center;
+	width: 48px;
+}
+.th {
+	color: orange;
+	font-weight: bold;
 }
 .box3 {
 	float: left;
@@ -32,13 +49,28 @@ input[type="text"] {
 .box3:hover .tooltiptext {
 	visibility: visible;
 }
-.box4 {
+.colors {
+	display: flex;
+	gap: 2px;
+	flex-wrap: wrap;
+}
+.colors div {
+	width: 50px;
+	margin: auto;
+}
+.color-stuff {
 	float: left;
-	width: 355px;
-	margin: 0 0 0 30px;
+	width: 418px;
+}
+.glyphs {
+	float: left;
+	width: 448px;
+}
+.map-elements {
+	float: left;
+	width: 414px;
 }
 .opt {
-	float: left;
 }
 .options::after {
 	content: "";

@@ -28,8 +28,6 @@ custom_css: mapgen
       </label>
     </div>
 {%- endfor -%}
-    
-    <br>
     <h3>Background colors</h3>
 {%- for i in (0..15) -%}
     <div class="bg bg{{ i }} box2">
