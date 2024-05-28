@@ -2,133 +2,146 @@
 
 !(() => {
   // proper constants
-  const MAX_ELEMENTS = 256;
+  const MAX_ELEMENTS = 256,
+    MAX_COLS = 80,
+    MAX_ROWS = 24,
+    GLYPHS = [
+      " ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*=,-./0123456789:;<=>?",
+      "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂",
+      "ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐",
+      "└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■ ",
+    ].join(""),
+    COLORS = [
+      "#000",
+      "#800",
+      "#080",
+      "#880",
+      "#008",
+      "#a0a",
+      "#055",
+      "#aaa",
+      "#555",
+      "#f00",
+      "#0f0",
+      "#ff0",
+      "#00f",
+      "#f0f",
+      "#0aa",
+      "#fff",
+    ];
 
-  const totalCols = 80, totalRows = 24;
-  let offsetx,
-    offsety,
-    cols,
-    rows,
-    bx,
-    by,
-    i,
-    j,
-    mat,
-    clicked,
-    oldX,
-    oldY;
-
-  document.querySelector("#bg0").checked = true;
-  document.querySelector("#fg7").checked = true;
-
-  // Control handlers
-  let numElems = 0;
-  const elems = Array(MAX_ELEMENTS);
-
-  const canvas = document.querySelector("#cnvs"),
+  // pointers
+  const elems = Array(MAX_ELEMENTS),
+    canvas = document.querySelector("#cnvs"),
     ctx = canvas.getContext("2d"),
     cpp = document.querySelector("#cpp"),
     map = document.querySelector("#map"),
     espan = document.querySelector("#elements"),
-    gspan = document.querySelector("#glyphs");
+    gspan = document.querySelector("#glyphs"),
+    ascii = document.querySelector("#ascii"),
+    name = document.querySelector("#name");
 
-  const mchar = [
-    " ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*=,-./0123456789:;<=>?",
-    "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂",
-    "ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐",
-    "└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■ ",
-  ].join("");
+  // proper variables
+  let offsetx, offsety, cols, rows, bx, by, i, j, mat, clicked, oldX, oldY;
 
-  elems[0] = { "ascii": 0, "name": "empty", "bg": 0, "fg": 0 };
-  elems[1] = { "ascii": 1, "name": "hero", "bg": 0, "fg": 2 };
-  elems[2] = { "ascii": 219, "name": "wall", "bg": 4, "fg": 3 };
-  elems[3] = { "ascii": 3, "name": "oneup", "bg": 0, "fg": 1 };
-  ++numElems;
-  ++numElems;
-  ++numElems;
-  ++numElems;
+  // initialized variables
+  let numElems = 0, curElem = 0;
 
-  const cadg = [];
-
-  for (let i = 0; i < numElems; ++i) {
-    const ascii = elems[i].ascii;
-    const name = elems[i].name;
-    const bg = elems[i].bg;
-    const fg = elems[i].fg;
-		const div = document.createElement('div')
-    const label = document.createElement("label");
-    const input = document.createElement("input");
-		const text = document.createTextNode(
-      `${ascii == 0 ? "nil" : ascii == 32 ? "' '" : mchar[ascii]} ${name}`,
-    );
-    input.setAttribute("type", "radio");
-    input.setAttribute("id", `element${i}`);
-    input.setAttribute("name", "element");
-    input.setAttribute("value", `${i}`);
-    label.appendChild(input);
-    label.appendChild(text);
-		label.setAttribute("for", `element${i}`)
-		label.setAttribute("class", `fg${fg} bg${bg}`);
-		div.appendChild(label);
-		espan.appendChild(div);
-  }
-
-  cadg.length = 0;
-  cadg.push(`<div class="box2 tr"> &nbsp; </div>`);
-  for (let i = 0; i < 16; ++i) {
-    cadg.push(`<div class="box3 th">${i.toString(16)}</div>`);
-  }
-  for (let i = 0; i < 256; ++i) {
-    const ch = (i === 0 || i === 32) ? "&nbsp;" : mchar[i];
-    const hextxt = `00${i.toString(16)}`;
-    if (i % 16 == 0) {
-      cadg.push(
-        `<div class="box2 th">0x${
-          hextxt.substring(hextxt.length - 2, hextxt.length - 1)
-        }_</div>`,
-      );
+  // functions dom manipulation
+  function createElement(elemInfo) {
+    if (elemInfo.element === "text") {
+      return document.createTextNode(elemInfo.text);
     }
-    cadg.push(
-      `<div class="box3">${ch}<span class="tooltiptext">${ch} 0x${
-        hextxt.substring(hextxt.length - 2)
-      } ${i}</span></div>`,
-    );
+    const elem = document.createElement(elemInfo.element);
+    if ("attrs" in elemInfo) {
+      for (const attr in elemInfo.attrs) {
+        elem.setAttribute(attr, elemInfo.attrs[attr]);
+      }
+    }
+    if ("children" in elemInfo) {
+      for (const child of elemInfo.children) {
+        elem.appendChild(createElement(child));
+      }
+    }
+    if ("listeners" in elemInfo) {
+      for (const listener of elemInfo.listeners) {
+        elem.addEventListener(listener.event, listener.callback);
+      }
+    }
+    return elem;
   }
-  gspan.innerHTML = cadg.join("");
+  function addGameElement(ascii, name, bg, fg) {
+    if (numElems >= MAX_ELEMENTS) {
+      return false;
+    }
+    elems[numElems] = {
+      "ascii": ascii,
+      "name": name,
+      "bg": bg,
+      "fg": fg,
+    };
+    espan.appendChild(createElement({
+      "element": "div",
+      "children": [{
+        "element": "label",
+        "attrs": { "for": `element${numElems}`, "class": `bg${bg} fg${fg}` },
+        "children": [{
+          "element": "input",
+          "attrs": {
+            "type": "radio",
+            "id": `element${numElems}`,
+            "name": "element",
+            "value": `${numElems}`,
+          },
+          "listeners": [{
+            "event": "click",
+            "callback": (e) => {
+              activateElement(e.target.value);
+            },
+          }],
+        }, {
+          "element": "text",
+          "text": `${
+            ascii == 0 ? "nil" : ascii == 32 ? "' '" : GLYPHS[ascii]
+          } ${name}`,
+        }],
+      }],
+    }));
+    ++numElems;
 
-  const colors = [
-    "#000",
-    "#800",
-    "#080",
-    "#880",
-    "#008",
-    "#a0a",
-    "#055",
-    "#aaa",
-    "#555",
-    "#f00",
-    "#0f0",
-    "#ff0",
-    "#00f",
-    "#f0f",
-    "#0aa",
-    "#fff",
-  ];
+    return true;
+  }
 
-  function mcolor(color) {
-    return colors[(color & 0x00f) == 0 ? (color >> 4) : color];
+  function activateElement(idx) {
+    curElem = idx;
+    ascii.value = elems[curElem].ascii;
+    name.value = elems[curElem].name;
+    document.querySelector(`#bg${elems[curElem].bg}`).checked = true;
+    document.querySelector(`#fg${elems[curElem].fg}`).checked = true;
   }
 
   function writeMat() {
-    const cad1 = [rows, " ", cols, "\n"];
+    const cad1 = [rows, " ", cols, " ", numElems, "\n"];
+    const len = Math.ceil(numElems / 100);
+    for (i = 0; i < numElems; ++i) {
+      cad1.push(`${elems[i].ascii}`);
+      cad1.push(" ");
+    }
+    cad1.pop();
+    cad1.push("\n");
     for (i = 0; i < rows; ++i) {
       for (j = 0; j < cols; ++j) {
-        const hextxt = "0000" + mat[j][i].toString(16);
-        cad1.push(`0x${hextxt.substring(hextxt.length - 4)} `);
+        const txt = "  " + mat[j][i].toString();
+        cad1.push(`${txt.substring(txt.length - len)}`);
+        cad1.push(" ");
       }
+      cad1.pop();
       cad1.push("\n");
     }
-    map.innerHTML = cad1.join("");
+    map.appendChild(createElement({
+      "element": "text",
+      "text": cad1.join(""),
+    }));
 
     const cad2 = [`#include "game.h"
 
@@ -136,18 +149,16 @@ using namespace std;
 
 // Caracteres!
 char glyphs[] = {`];
-    /*
-    for (i = 0; i < 16 && names[i].value.trim() !== ""; ++i) {
-      cad2.push(i === 0 ? " " : ", ", parseInt(chars[i].value));
-    }*/
+    for (i = 0; i < numElems; ++i) {
+      cad2.push(i === 0 ? " " : ", ", parseInt(elems[i].ascii));
+    }
     cad2.push(` };
     
 // just in case
 // string glyphs[] = { `);
-    /*
-    for (i = 0; i < 16 && names[i].value.trim() !== ""; ++i) {
-      cad2.push(i === 0 ? '"' : ', "', mchar[parseInt(chars[i].value)], '"');
-    }*/
+    for (i = 0; i < numElems; ++i) {
+      cad2.push(i === 0 ? '"' : ', "', GLYPHS[parseInt(elems[i].ascii)], '"');
+    }
     cad2.push(` };
     
 // Constantes de tipo de elemento!
@@ -211,27 +222,31 @@ int main() {
   }
 
   function pintaXY(x, y) {
-    const ch = parseInt(elems[(mat[x][y] & 0xf00) >> 8].ascii);
+    const ch = parseInt(elems[mat[x][y]].ascii);
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
-    ctx.fillStyle = mcolor(mat[x][y] & 0x0f0);
+    ctx.fillStyle = COLORS[mat[x][y].bg];
     ctx.fill();
-    ctx.fillStyle = mcolor(mat[x][y] & 0x00f);
+    ctx.fillStyle = COLORS[mat[x][y].fg];
     ctx.font = `${Math.floor(by * 0.75)}px Consolas, monospace`;
-    ctx.fillText(mchar[ch], (offsetx + x) * bx + 1, (offsety + y + 1) * by - 6);
+    ctx.fillText(
+      GLYPHS[ch],
+      (offsetx + x) * bx + 1,
+      (offsety + y + 1) * by - 6,
+    );
   }
 
   function drawGrid() {
     // Drawing a grid.
     ctx.beginPath();
     ctx.strokeStyle = "#123";
-    for (i = 0; i <= totalCols; ++i) {
+    for (i = 0; i <= MAX_COLS; ++i) {
       ctx.moveTo(i * bx, 0);
-      ctx.lineTo(i * bx, totalRows * by);
+      ctx.lineTo(i * bx, MAX_ROWS * by);
     }
-    for (i = 0; i <= totalRows; ++i) {
+    for (i = 0; i <= MAX_ROWS; ++i) {
       ctx.moveTo(0, i * by);
-      ctx.lineTo(totalCols * bx, i * by);
+      ctx.lineTo(MAX_COLS * bx, i * by);
     }
     ctx.stroke();
 
@@ -262,7 +277,7 @@ int main() {
 
     for (let x = 0; x < cols; ++x) {
       for (let y = 0; y < rows; ++y) {
-        if (mat[x][y] !== 0x000) {
+        if (mat[x][y] !== 0) {
           pintaXY(x, y);
         }
       }
@@ -271,21 +286,16 @@ int main() {
     writeMat();
   }
 
-  function getRadioVal(nom) {
-    const temp = document.querySelector(`input[name=${nom}]:checked`);
-    return temp ? parseInt(temp.value) : 0;
-  }
-
   function init(r, c) {
     clicked = false;
     oldX = -1;
     oldY = -1;
     rows = r;
     cols = c;
-    offsetx = Math.floor(totalCols / 2 - cols / 2);
-    offsety = Math.floor(totalRows / 2 - rows / 2);
-    bx = canvas.width / totalCols;
-    by = canvas.height / totalRows;
+    offsetx = Math.floor(MAX_COLS / 2 - cols / 2);
+    offsety = Math.floor(MAX_ROWS / 2 - rows / 2);
+    bx = canvas.width / MAX_COLS;
+    by = canvas.height / MAX_ROWS;
 
     // Two dimensional array to hold the mat.
     mat = new Array(cols);
@@ -295,15 +305,8 @@ int main() {
     drawmat();
   }
 
-  // boton
-  document.querySelector("#new").addEventListener("click", () => {
-    rows = parseInt(document.querySelector("input[name=rows]").value);
-    cols = parseInt(document.querySelector("input[name=cols]").value);
-    init(rows, cols);
-  });
-
-  // Eventos de mouse.
   function update(e) {
+    console.log(curElem);
     const bcr = canvas.getBoundingClientRect(),
       offx = bcr.left,
       offy = bcr.top,
@@ -313,14 +316,76 @@ int main() {
     if (x !== oldX || y !== oldY) {
       oldX = x;
       oldY = y;
-      const fg = getRadioVal("fg"),
-        bg = getRadioVal("bg"),
-        code = getRadioVal("code"),
-        thing = (code << 8) + (bg << 4) + fg;
-      mat[x][y] = mat[x][y] == thing ? 0x000 : thing;
+      mat[x][y] = mat[x][y] == curElem ? 0 : curElem;
       drawmat();
     }
   }
+
+  // initializations
+  document.querySelector("#bg0").checked = true;
+  document.querySelector("#fg7").checked = true;
+
+  addGameElement(0, "empty", 0, 0);
+  addGameElement(1, "hero", 0, 2);
+  addGameElement(219, "wall", 4, 3);
+  addGameElement(3, "oneup", 0, 1);
+
+  gspan.appendChild(createElement({
+    "element": "div",
+    "attrs": { "class": "box2 th" },
+    "children": [{ "element": "text", "text": "\u00A0" }],
+  }));
+  for (let i = 0; i < 16; ++i) {
+    gspan.appendChild(createElement({
+      "element": "div",
+      "attrs": { "class": "box3 th" },
+      "children": [{ "element": "text", "text": i.toString(16) }],
+    }));
+  }
+  for (let i = 0; i < 256; ++i) {
+    const ch = i === 0
+      ? "nul"
+      : i === 32
+      ? "sp"
+      : i === 255
+      ? "nbsp"
+      : GLYPHS[i];
+    const txt = `00${i.toString(16)}`;
+    if (i % 16 == 0) {
+      gspan.appendChild(createElement({
+        "element": "div",
+        "attrs": { "class": "box2 th" },
+        "children": [{
+          "element": "text",
+          "text": `0x${txt.substring(txt.length - 2, txt.length - 1)}_`,
+        }],
+      }));
+    }
+    gspan.appendChild(createElement({
+      "element": "div",
+      "attrs": { "class": "box3" },
+      "children": [{
+        "element": "text",
+        "text": ch,
+      }, {
+        "element": "span",
+        "attrs": { "class": "tooltiptext" },
+        "children": [{
+          "element": "text",
+          "text": `${ch} 0x${txt.substring(txt.length - 2)} ${i}`,
+        }],
+      }],
+    }));
+  }
+
+  // eventos de botones
+  document.querySelector("#new").addEventListener("click", () => {
+    rows = parseInt(document.querySelector("input[name=rows]").value);
+    cols = parseInt(document.querySelector("input[name=cols]").value);
+    init(rows, cols);
+  });
+
+  // Eventos de mouse.
   canvas.addEventListener("mousedown", (e) => {
     clicked = true;
     update(e);
