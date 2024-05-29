@@ -4,9 +4,10 @@ label {
 }
 /* Target labels that have a radio input as child. */
 label:has(input[type=radio]) {
+	align-items: center;
 	display: grid;
 	flex-direction: row;
-	align-items: center;
+	text-shadow: 0 1px 0 rgba(125, 125, 125, 0.75);
 }
 /* Change label background when the child element is checked. */
 label:has(input[type=radio]:checked) {

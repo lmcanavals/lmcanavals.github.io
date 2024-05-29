@@ -62,6 +62,11 @@
   // initialized variables
   let numElems = 0, curElem = 0;
 
+  // utils
+  function randint(min, max) { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   // functions dom manipulation
   function createElement(elemInfo) {
     if (elemInfo.element === "text") {
@@ -347,11 +352,15 @@ int main() {
 
   // initializations
   addGameElement(0, "empty", 0, 0);
-  addGameElement(1, "hero", 0, 2);
-  addGameElement(219, "wall", 4, 3);
+  addGameElement(219, "wall1", 0, 5);
+  addGameElement(178, "wall2", 0, 5);
+  addGameElement(177, "wall3", 0, 5);
+  addGameElement(176, "wall4", 0, 5);
+  addGameElement(2, "hero", 0, 11);
+  addGameElement(1, "enemy", 0, 9);
   addGameElement(3, "oneup", 0, 1);
-  addGameElement(72, "upperh", 0, 1);
-  addGameElement(103, "lowerg", 0, 1);
+  addGameElement(227, "pi", 7, 9);
+  addGameElement(251, "sqrt", 1, 14);
 
   gspan.appendChild(createElement({
     "element": "div",
@@ -434,11 +443,20 @@ int main() {
   })();
 
   // eventos de botones
-  document.querySelector("#new").addEventListener("click", () => {
+  document.querySelector("#reset-map").addEventListener("click", () => {
     rows = parseInt(document.querySelector("input[name=rows]").value);
     cols = parseInt(document.querySelector("input[name=cols]").value);
     init();
   });
+  document.querySelector("#add").addEventListener("click", () => {
+    addGameElement(
+      randint(33, 254),
+      `element${numElems}`,
+      randint(0, 7),
+      randint(8, 16),
+    );
+  });
+  document;
 
   // Eventos de mouse.
   canvas.addEventListener("mousedown", (e) => {
@@ -460,5 +478,5 @@ int main() {
   });
 
   document.querySelector("#element0").click();
-  document.querySelector("#new").click();
+  document.querySelector("#reset-map").click();
 })();
