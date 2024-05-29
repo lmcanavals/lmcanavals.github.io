@@ -3,8 +3,8 @@
 !(() => {
   // proper constants
   const MAX_ELEMENTS = 256,
-    MAX_COLS = 80,
-    MAX_ROWS = 24,
+    FONT = "monospace",
+    WHR = calcWidthHeightRatio(FONT),
     GLYPHS = [
       " ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*=,-./0123456789:;<=>?",
       "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂",
@@ -42,7 +42,22 @@
     name = document.querySelector("#name");
 
   // proper variables
-  let offsetx, offsety, cols, rows, bx, by, i, j, mat, clicked, oldX, oldY;
+  let offsetx,
+    offsety,
+    cols,
+    rows,
+    bx,
+    by,
+    i,
+    j,
+    mat,
+    clicked,
+    oldX,
+    oldY,
+    max_cols,
+    max_rows,
+    fontheight,
+    yfix;
 
   // initialized variables
   let numElems = 0, curElem = 0;
@@ -96,7 +111,7 @@
           "listeners": [{
             "event": "click",
             "callback": (e) => {
-              activateElement(e.target.value);
+              activateElement(parseInt(e.target.value));
             },
           }],
         }, {
@@ -138,6 +153,7 @@
       cad1.pop();
       cad1.push("\n");
     }
+    map.innerHTML = "";
     map.appendChild(createElement({
       "element": "text",
       "text": cad1.join(""),
@@ -225,49 +241,49 @@ int main() {
     const ch = parseInt(elems[mat[x][y]].ascii);
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
-    ctx.fillStyle = COLORS[mat[x][y].bg];
+    ctx.fillStyle = COLORS[elems[mat[x][y]].bg];
     ctx.fill();
-    ctx.fillStyle = COLORS[mat[x][y].fg];
-    ctx.font = `${Math.floor(by * 0.75)}px Consolas, monospace`;
+    ctx.fillStyle = COLORS[elems[mat[x][y]].fg];
+    ctx.font = `${fontheight}px ${FONT}`;
     ctx.fillText(
       GLYPHS[ch],
-      (offsetx + x) * bx + 1,
-      (offsety + y + 1) * by - 6,
+      (offsetx + x) * bx,
+      (offsety + y + 1) * by - yfix,
     );
   }
 
   function drawGrid() {
     // Drawing a grid.
     ctx.beginPath();
-    ctx.strokeStyle = "#123";
-    for (i = 0; i <= MAX_COLS; ++i) {
+    ctx.strokeStyle = "#111";
+    for (i = 0; i <= max_cols; ++i) {
       ctx.moveTo(i * bx, 0);
-      ctx.lineTo(i * bx, MAX_ROWS * by);
+      ctx.lineTo(i * bx, max_rows * by);
     }
-    for (i = 0; i <= MAX_ROWS; ++i) {
+    for (i = 0; i <= max_rows; ++i) {
       ctx.moveTo(0, i * by);
-      ctx.lineTo(MAX_COLS * bx, i * by);
+      ctx.lineTo(max_cols * bx, i * by);
     }
     ctx.stroke();
 
     // numbers
     ctx.fillStyle = "OrangeRed";
-    ctx.font = "12pt Consolas";
+    ctx.font = `${fontheight}px ${FONT}`;
     for (i = 0; i < cols; ++i) {
-      ctx.fillText("" + i % 10, (i + offsetx) * bx + 3, offsety * by - 5);
+      ctx.fillText(`${i % 10}`, (i + offsetx) * bx, offsety * by - yfix);
     }
     for (i = 0; i < rows; ++i) {
       ctx.fillText(
-        "" + i % 10,
-        (offsetx - 1) * bx + 1,
-        (offsety + i + 1) * by - 4,
+        `${i % 10}`,
+        (offsetx - 1) * bx,
+        (offsety + i + 1) * by - yfix,
       );
     }
 
     // drawing actual map region
     ctx.beginPath();
     ctx.strokeStyle = "OrangeRed";
-    ctx.rect(offsetx * bx - 2, offsety * by - 2, cols * bx + 4, rows * by + 4);
+    ctx.rect(offsetx * bx - 1, offsety * by - 1, cols * bx + 2, rows * by + 2);
     ctx.stroke();
   }
 
@@ -286,16 +302,19 @@ int main() {
     writeMat();
   }
 
-  function init(r, c) {
+  function init() {
+    max_cols = cols + 2;
+    max_rows = rows + 2;
     clicked = false;
     oldX = -1;
     oldY = -1;
-    rows = r;
-    cols = c;
-    offsetx = Math.floor(MAX_COLS / 2 - cols / 2);
-    offsety = Math.floor(MAX_ROWS / 2 - rows / 2);
-    bx = canvas.width / MAX_COLS;
-    by = canvas.height / MAX_ROWS;
+    offsetx = Math.floor(max_cols / 2 - cols / 2);
+    offsety = Math.floor(max_rows / 2 - rows / 2);
+    bx = canvas.width / max_cols;
+    fontheight = bx * WHR;
+    yfix = fontheight * 0.3;
+    by = fontheight + yfix * 1.07;
+    canvas.height = by * max_rows;
 
     // Two dimensional array to hold the mat.
     mat = new Array(cols);
@@ -306,7 +325,6 @@ int main() {
   }
 
   function update(e) {
-    console.log(curElem);
     const bcr = canvas.getBoundingClientRect(),
       offx = bcr.left,
       offy = bcr.top,
@@ -321,14 +339,19 @@ int main() {
     }
   }
 
-  // initializations
-  document.querySelector("#bg0").checked = true;
-  document.querySelector("#fg7").checked = true;
+  function calcWidthHeightRatio(font) {
+    const ctx = document.createElement("canvas").getContext("2d");
+    ctx.font = `100px ${font}`;
+    return 100 / ctx.measureText("\xdb").width;
+  }
 
+  // initializations
   addGameElement(0, "empty", 0, 0);
   addGameElement(1, "hero", 0, 2);
   addGameElement(219, "wall", 4, 3);
   addGameElement(3, "oneup", 0, 1);
+  addGameElement(72, "upperh", 0, 1);
+  addGameElement(103, "lowerg", 0, 1);
 
   gspan.appendChild(createElement({
     "element": "div",
@@ -378,11 +401,43 @@ int main() {
     }));
   }
 
+  // radio events
+  (function () {
+    let radios = document.querySelectorAll("input[name=fg]");
+    for (const radio of radios) {
+      radio.addEventListener("click", () => {
+        elems[curElem].fg = radio.value;
+        const parent =
+          document.querySelector(`#element${curElem}`).parentElement;
+        const cls = parent.getAttribute("class");
+        parent.setAttribute(
+          "class",
+          `${cls.match(/bg\d+/)[0]} fg${radio.value}`,
+        );
+        drawmat();
+      });
+    }
+    radios = document.querySelectorAll("input[name=bg]");
+    for (const radio of radios) {
+      radio.addEventListener("click", () => {
+        elems[curElem].bg = radio.value;
+        const parent =
+          document.querySelector(`#element${curElem}`).parentElement;
+        const cls = parent.getAttribute("class");
+        parent.setAttribute(
+          "class",
+          `bg${radio.value} ${cls.match(/fg\d+/)[0]}`,
+        );
+        drawmat();
+      });
+    }
+  })();
+
   // eventos de botones
   document.querySelector("#new").addEventListener("click", () => {
     rows = parseInt(document.querySelector("input[name=rows]").value);
     cols = parseInt(document.querySelector("input[name=cols]").value);
-    init(rows, cols);
+    init();
   });
 
   // Eventos de mouse.
@@ -404,5 +459,6 @@ int main() {
     oldY = -1;
   });
 
-  init(22, 70);
+  document.querySelector("#element0").click();
+  document.querySelector("#new").click();
 })();
