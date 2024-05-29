@@ -31,15 +31,16 @@
     ];
 
   // pointers
-  const elems = Array(MAX_ELEMENTS),
+  const elems = new Map(),
+    idx2hash = new Array(256),
     canvas = document.querySelector("#cnvs"),
     ctx = canvas.getContext("2d"),
     cpp = document.querySelector("#cpp"),
     map = document.querySelector("#map"),
     espan = document.querySelector("#elements"),
     gspan = document.querySelector("#glyphs"),
-    ascii = document.querySelector("#ascii"),
-    name = document.querySelector("#name");
+    elemAscii = document.querySelector("#ascii"),
+    elemName = document.querySelector("#name");
 
   // proper variables
   let offsetx,
@@ -60,11 +61,21 @@
     yfix;
 
   // initialized variables
-  let numElems = 0, curElem = 0;
+  let numElems = 0, curElem = "";
 
   // utils
   function randint(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+  function genHash(len = 20) {
+    const arr = new Uint8Array(Math.floor(len / 2));
+    globalThis.crypto.getRandomValues(arr);
+    return Array.from(arr, (dec) => dec.toString(16).padStart(2, "0")).join("");
+  }
+  function calcWidthHeightRatio(font) {
+    const ctx = document.createElement("canvas").getContext("2d");
+    ctx.font = `100px ${font}`;
+    return 100 / ctx.measureText("\xdb").width;
   }
 
   // functions dom manipulation
@@ -94,29 +105,35 @@
     if (numElems >= MAX_ELEMENTS) {
       return false;
     }
-    elems[numElems] = {
+    const hash = genHash(24);
+    elems.set(hash, {
       "ascii": ascii,
       "name": name,
       "bg": bg,
       "fg": fg,
-    };
+    });
+    idx2hash[numElems] = hash;
+    if (curElem === "") {
+      curElem = hash;
+    }
     espan.appendChild(createElement({
       "element": "div",
+      "attrs": { "id": hash },
       "children": [{
         "element": "label",
-        "attrs": { "for": `element${numElems}`, "class": `bg${bg} fg${fg}` },
+        "attrs": { "for": `element${hash}`, "class": `bg${bg} fg${fg}` },
         "children": [{
           "element": "input",
           "attrs": {
             "type": "radio",
-            "id": `element${numElems}`,
+            "id": `element${hash}`,
             "name": "element",
-            "value": `${numElems}`,
+            "value": `${hash}`,
           },
           "listeners": [{
             "event": "click",
             "callback": (e) => {
-              activateElement(parseInt(e.target.value));
+              activateElement(e.target.value);
             },
           }],
         }, {
@@ -133,26 +150,26 @@
   }
 
   function activateElement(idx) {
+    const elem = elems.get(idx);
     curElem = idx;
-    ascii.value = elems[curElem].ascii;
-    name.value = elems[curElem].name;
-    document.querySelector(`#bg${elems[curElem].bg}`).checked = true;
-    document.querySelector(`#fg${elems[curElem].fg}`).checked = true;
+    elemAscii.value = elem.ascii;
+    elemName.value = elem.name;
+    document.querySelector(`#bg${elem.bg}`).checked = true;
+    document.querySelector(`#fg${elem.fg}`).checked = true;
   }
 
   function writeMat() {
     const cad1 = [rows, " ", cols, " ", numElems, "\n"];
     const len = Math.ceil(numElems / 100);
-    for (i = 0; i < numElems; ++i) {
-      cad1.push(`${elems[i].ascii}`);
+    elems.forEach((elem) => {
+      cad1.push(`${elem.ascii}`);
       cad1.push(" ");
-    }
+    });
     cad1.pop();
     cad1.push("\n");
     for (i = 0; i < rows; ++i) {
       for (j = 0; j < cols; ++j) {
-        const txt = "  " + mat[j][i].toString();
-        cad1.push(`${txt.substring(txt.length - len)}`);
+        cad1.push(`${mat[j][i].toString().padStart(len, " ")}`);
         cad1.push(" ");
       }
       cad1.pop();
@@ -170,16 +187,20 @@ using namespace std;
 
 // Caracteres!
 char glyphs[] = {`];
-    for (i = 0; i < numElems; ++i) {
-      cad2.push(i === 0 ? " " : ", ", parseInt(elems[i].ascii));
-    }
+    elems.forEach((elem) => {
+      cad2.push(elem.ascii);
+      cad1.push(", ");
+    });
+    cad2.pop();
     cad2.push(` };
     
 // just in case
 // string glyphs[] = { `);
-    for (i = 0; i < numElems; ++i) {
-      cad2.push(i === 0 ? '"' : ', "', GLYPHS[parseInt(elems[i].ascii)], '"');
-    }
+    elems.forEach((elem) => {
+      cad2.push(GLYPHS[parseInt(elem.ascii)]);
+      cad1.push(", ");
+    });
+    cad2.pop();
     cad2.push(` };
     
 // Constantes de tipo de elemento!
@@ -243,12 +264,13 @@ int main() {
   }
 
   function pintaXY(x, y) {
-    const ch = parseInt(elems[mat[x][y]].ascii);
+    const elem = elems.get(idx2hash[mat[x][y]]);
+    const ch = parseInt(elem.ascii);
     ctx.beginPath();
     ctx.rect((offsetx + x) * bx, (offsety + y) * by, bx, by);
-    ctx.fillStyle = COLORS[elems[mat[x][y]].bg];
+    ctx.fillStyle = COLORS[elem.bg];
     ctx.fill();
-    ctx.fillStyle = COLORS[elems[mat[x][y]].fg];
+    ctx.fillStyle = COLORS[elem.fg];
     ctx.font = `${fontheight}px ${FONT}`;
     ctx.fillText(
       GLYPHS[ch],
@@ -335,19 +357,20 @@ int main() {
       offy = bcr.top,
       x = Math.floor((e.clientX - offx) / bx) - offsetx,
       y = Math.floor((e.clientY - offy) / by) - offsety;
+    let idx = 0;
+    for (i = 0; i < numElems; ++i) {
+      if (idx2hash[i] == curElem) {
+        idx = i;
+        break;
+      }
+    }
     if (x < 0 || x >= cols || y < 0 || y >= rows) return;
     if (x !== oldX || y !== oldY) {
       oldX = x;
       oldY = y;
-      mat[x][y] = mat[x][y] == curElem ? 0 : curElem;
+      mat[x][y] = mat[x][y] == idx ? 0 : i;
       drawmat();
     }
-  }
-
-  function calcWidthHeightRatio(font) {
-    const ctx = document.createElement("canvas").getContext("2d");
-    ctx.font = `100px ${font}`;
-    return 100 / ctx.measureText("\xdb").width;
   }
 
   // initializations
@@ -382,14 +405,13 @@ int main() {
       : i === 255
       ? "nbsp"
       : GLYPHS[i];
-    const txt = `00${i.toString(16)}`;
     if (i % 16 == 0) {
       gspan.appendChild(createElement({
         "element": "div",
         "attrs": { "class": "box2 th" },
         "children": [{
           "element": "text",
-          "text": `0x${txt.substring(txt.length - 2, txt.length - 1)}_`,
+          "text": `0x${(i / 16).toString(16)}_`,
         }],
       }));
     }
@@ -404,7 +426,7 @@ int main() {
         "attrs": { "class": "tooltiptext" },
         "children": [{
           "element": "text",
-          "text": `${ch} 0x${txt.substring(txt.length - 2)} ${i}`,
+          "text": `${ch} 0x${i.toString(16).padStart(2, "0")} ${i}`,
         }],
       }],
     }));
@@ -415,7 +437,7 @@ int main() {
     let radios = document.querySelectorAll("input[name=fg]");
     for (const radio of radios) {
       radio.addEventListener("click", () => {
-        elems[curElem].fg = radio.value;
+        elems.get(curElem).fg = radio.value;
         const parent =
           document.querySelector(`#element${curElem}`).parentElement;
         const cls = parent.getAttribute("class");
@@ -429,7 +451,7 @@ int main() {
     radios = document.querySelectorAll("input[name=bg]");
     for (const radio of radios) {
       radio.addEventListener("click", () => {
-        elems[curElem].bg = radio.value;
+        elems.get(curElem).bg = radio.value;
         const parent =
           document.querySelector(`#element${curElem}`).parentElement;
         const cls = parent.getAttribute("class");
@@ -477,6 +499,6 @@ int main() {
     oldY = -1;
   });
 
-  document.querySelector("#element0").click();
+  document.querySelector(`#element${curElem}`).click();
   document.querySelector("#reset-map").click();
 })();
